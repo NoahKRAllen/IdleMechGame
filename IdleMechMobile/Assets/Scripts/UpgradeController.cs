@@ -1,36 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UpgradeController : MonoBehaviour
 {
-    private Button _selfButton;
-    [SerializeField]
-    private TextMeshProUGUI moneyIncreaseCounter;
+    private MoneyController _moneyController;
 
-    [SerializeField] 
-    private ClickerController moneyIncreaseButtonController;
+    private int _upgradeCost;
+    private readonly int _initialUpgradeCost = 10;
 
+    [SerializeField] private TextMeshProUGUI upgradeCost;
     
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        if (!_selfButton)
+        if (!_moneyController)
         {
-            _selfButton = GetComponent<Button>();
+            _moneyController = GetComponent<MoneyController>();
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (_upgradeCost == 0)
+        {
+            _upgradeCost = _initialUpgradeCost;
+        }
+        upgradeCost.text = "Spend $" + _upgradeCost + " to upgrade";
     }
 
     public void UpgradeClickValue()
     {
-        moneyIncreaseButtonController.IncreaseClickValue();
+        if (!_moneyController.UpgradeClickValue(_upgradeCost))
+        {
+            return;
+        }
+        //Using this to scale the cost in a linear way, will update this later to do proper
+        //math for scaling
+        _upgradeCost += _initialUpgradeCost;
+        upgradeCost.text = "Spend $" + _upgradeCost + " to upgrade";
     }
 }

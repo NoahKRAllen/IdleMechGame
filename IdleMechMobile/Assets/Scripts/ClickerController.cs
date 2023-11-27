@@ -4,50 +4,49 @@ using UnityEngine.UI;
 
 public class ClickerController : MonoBehaviour
 {
-    private Button _selfButton;
-
-    private TextMeshProUGUI _selfButtonText;
     [SerializeField]
-    private TextMeshProUGUI moneyCounter;
+    private Button moneyUpButton;
+    [SerializeField]
+    private TextMeshProUGUI moneyUpButtonText;
+    private MoneyController _moneyController;
 
-    private int _moneyIntHolder = 0;
     private int _moneyIntIncrease = 1;
     
     // Start is called before the first frame update
     void Start()
     {
-        if (!_selfButton)
+        if (!moneyUpButton)
         {
-            _selfButton = GetComponent<Button>();
+            Debug.Log("Missing money increase button");
         }
 
-        if (!_selfButtonText)
+        if (!moneyUpButtonText)
         {
-            _selfButtonText = GetComponentInChildren<TextMeshProUGUI>();
+            Debug.Log("Missing money increase button text");
         }
 
-        if (!moneyCounter)
+        if (!_moneyController)
         {
-            gameObject.SetActive(false);
+            _moneyController = GetComponent<MoneyController>();
         }
-
-        moneyCounter.text = "Money: " + _moneyIntHolder;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CallIncreaseMoney(float amountToAdd)
     {
+        if (amountToAdd > 0)
+        {
+            _moneyController.IncreaseMoney(amountToAdd);
+        }
     }
+    
 
-    public void IncreaseMoney()
+    public void AddClickMoney()
     {
-        _moneyIntHolder += _moneyIntIncrease;
-        moneyCounter.text = "Money " + _moneyIntHolder;
+        _moneyController.IncreaseMoney(_moneyIntIncrease);
     }
-
     public void IncreaseClickValue()
     {
         _moneyIntIncrease++;
-        _selfButtonText.text = "+" + _moneyIntIncrease + " Money";
+        moneyUpButtonText.text = "+" + _moneyIntIncrease + " Money";
     }
 }
