@@ -4,19 +4,30 @@ using UnityEngine.Serialization;
 
 public class MoneyController : MonoBehaviour
 {
-    [FormerlySerializedAs("moneyCounter")] [SerializeField]
+    [SerializeField]
     private TextMeshProUGUI moneyCounterText;
+    [SerializeField]
+    private TextMeshProUGUI moneyUpgradeClickCostText;
+
+    private int _currentUpgradeMoneyClickCost;
     
     private float _moneyFloatHolder;
 
-    private ClickerController _clickerController;
+    private int _moneyPerTick;
+
+    private TextManager _textManager;
 
     private void Start()
     {
-        if (!_clickerController)
-        {
-            _clickerController = GetComponent<ClickerController>();
-        }
+        //This if check will be modified to respond when we load in the playerprefs
+        //If the playerpref is empty, we set the value to default
+        //if (PlayerPrefs.GetInt(UpgradeCost))
+        //{
+        //    UpdateMoneyUpgradeText();
+        //    _currentUpgradeMoneyCost = PlayerPrefs.GetInt(UpgradeCost);
+        //}
+        _currentUpgradeMoneyClickCost = 10;
+        UpdateUpgradeCostText(_currentUpgradeMoneyClickCost, moneyUpgradeClickCostText);
     }
 
     public void IncreaseMoney(float amountToAdd)
@@ -29,17 +40,22 @@ public class MoneyController : MonoBehaviour
     {
         moneyCounterText.text = "Money: $" + (int)_moneyFloatHolder;
     }
-    public bool UpgradeClickValue(int upgradeCost)
+    public bool UpgradeClickValue()
     {
-        if (upgradeCost > _moneyFloatHolder)
+        if (_currentUpgradeMoneyClickCost > _moneyFloatHolder)
         {
             return false;
         }
-        _moneyFloatHolder -= upgradeCost;
-
+        _moneyFloatHolder -= _currentUpgradeMoneyClickCost;
+        _currentUpgradeMoneyClickCost += _currentUpgradeMoneyClickCost;
         UpdateMoneyText();
-        
-        _clickerController.IncreaseClickValue();
+        UpdateUpgradeCostText(_currentUpgradeMoneyClickCost, moneyUpgradeClickCostText);
+        //_clickerController.IncreaseClickValue(); //Swap this to TextManager instead of ClickerController
         return true;
+    }
+
+    private void UpdateUpgradeCostText(int upgradedCost, TMP_Text textToUpdate)
+    {
+        textToUpdate.text = "Spend $" + upgradedCost + " To Upgrade";
     }
 }
