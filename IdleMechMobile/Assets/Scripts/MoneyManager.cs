@@ -6,16 +6,12 @@ public class MoneyController : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI moneyCounterText;
-    [SerializeField]
-    private TextMeshProUGUI moneyUpgradeClickCostText;
 
-    private int _currentUpgradeMoneyClickCost;
-    
+    [SerializeField] private ClickerManager clickerManager;
+    [SerializeField] private TextManager textManager;
     private float _moneyFloatHolder;
 
     private int _moneyPerTick;
-
-    private TextManager _textManager;
 
     private void Start()
     {
@@ -26,8 +22,6 @@ public class MoneyController : MonoBehaviour
         //    UpdateMoneyUpgradeText();
         //    _currentUpgradeMoneyCost = PlayerPrefs.GetInt(UpgradeCost);
         //}
-        _currentUpgradeMoneyClickCost = 10;
-        UpdateUpgradeCostText(_currentUpgradeMoneyClickCost, moneyUpgradeClickCostText);
     }
 
     public void IncreaseMoney(float amountToAdd)
@@ -40,22 +34,19 @@ public class MoneyController : MonoBehaviour
     {
         moneyCounterText.text = "Money: $" + (int)_moneyFloatHolder;
     }
-    public bool UpgradeClickValue()
+
+    public bool UpgradeClickValue(UpgradeSelectionInfo info)
     {
-        if (_currentUpgradeMoneyClickCost > _moneyFloatHolder)
+        if (info.upgradeCost > _moneyFloatHolder)
         {
             return false;
         }
-        _moneyFloatHolder -= _currentUpgradeMoneyClickCost;
-        _currentUpgradeMoneyClickCost += _currentUpgradeMoneyClickCost;
-        UpdateMoneyText();
-        UpdateUpgradeCostText(_currentUpgradeMoneyClickCost, moneyUpgradeClickCostText);
-        //_clickerController.IncreaseClickValue(); //Swap this to TextManager instead of ClickerController
-        return true;
-    }
 
-    private void UpdateUpgradeCostText(int upgradedCost, TMP_Text textToUpdate)
-    {
-        textToUpdate.text = "Spend $" + upgradedCost + " To Upgrade";
+        _moneyFloatHolder -= info.upgradeCost;
+        info.upgradeCost += info.upgradeCost;
+        UpdateMoneyText();
+        textManager.UpdateUpgradeCostText(info.upgradeCost, info.upgradeTextConnection);
+        clickerManager.IncreaseClickValue();
+        return true;
     }
 }
