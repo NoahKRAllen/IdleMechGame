@@ -1,17 +1,14 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class MoneyController : MonoBehaviour
+public class MoneyManager : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI moneyCounterText;
-
-    [SerializeField] private ClickerManager clickerManager;
     [SerializeField] private TextManager textManager;
-    private float _moneyFloatHolder;
+    private int _moneyIntHolder;
 
     private int _moneyPerTick;
+
+    private float _cycleDuration;
+    private float _cycleTimer;
 
     private void Start()
     {
@@ -22,31 +19,48 @@ public class MoneyController : MonoBehaviour
         //    UpdateMoneyUpgradeText();
         //    _currentUpgradeMoneyCost = PlayerPrefs.GetInt(UpgradeCost);
         //}
+        //Default duration will be one second for each tick
+        _cycleDuration = 6.0f;
+        _cycleTimer = _cycleDuration;
     }
 
-    public void IncreaseMoney(float amountToAdd)
+    private void Update()
     {
-        _moneyFloatHolder += amountToAdd;
-        UpdateMoneyText();
-    }
-    
-    private void UpdateMoneyText()
-    {
-        moneyCounterText.text = "Money: $" + (int)_moneyFloatHolder;
+        _cycleTimer -= Time.deltaTime;
+        textManager.UpdateCycleTimer(_cycleTimer, _cycleDuration);
+        if (!(_cycleTimer < 0.0f)) return;
+        _cycleTimer = _cycleDuration;
+        IncreaseMoney(_moneyPerTick);
     }
 
-    public bool UpgradeClickValue(UpgradeSelectionInfo info)
+    public void IncreaseMoney(int amountToAdd)
     {
-        if (info.upgradeCost > _moneyFloatHolder)
+        _moneyIntHolder += amountToAdd;
+        textManager.UpdateMoneyText(_moneyIntHolder);
+    }
+
+    public void IncreaseTickValue()
+    {
+        _moneyPerTick++;
+        textManager.UpdateCycleValueText(_moneyPerTick);
+    }
+
+    public bool UpgradeValue(UpgradeSelectionInfo info)
+    {
+        if (info.upgradeCost > _moneyIntHolder)
         {
             return false;
         }
 
-        _moneyFloatHolder -= info.upgradeCost;
-        info.upgradeCost += info.upgradeCost;
-        UpdateMoneyText();
+        _moneyIntHolder -= info.upgradeCost;
+        info.upgradeCost *= 2;
+        textManager.UpdateMoneyText(_moneyIntHolder);
         textManager.UpdateUpgradeCostText(info.upgradeCost, info.upgradeTextConnection);
-        clickerManager.IncreaseClickValue();
         return true;
+    }
+
+    public void DecreaseCycleTimer()
+    {
+        _cycleDuration -= 0.1f;
     }
 }

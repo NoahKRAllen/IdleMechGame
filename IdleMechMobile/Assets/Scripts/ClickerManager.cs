@@ -8,7 +8,7 @@ public class ClickerManager : MonoBehaviour
     private Button moneyUpButton;
     [SerializeField]
     private TextMeshProUGUI moneyUpButtonText;
-    private MoneyController _moneyController;
+    private MoneyManager _moneyManager;
 
     private int _moneyIntIncrease = 1;
     
@@ -25,28 +25,20 @@ public class ClickerManager : MonoBehaviour
             Debug.Log("Missing money increase button text");
         }
 
-        if (!_moneyController)
+        if (!_moneyManager)
         {
-            _moneyController = GetComponent<MoneyController>();
+            _moneyManager = GetComponent<MoneyManager>();
         }
     }
-
-    public void CallIncreaseMoney(float amountToAdd)
-    {
-        if (amountToAdd > 0)
-        {
-            _moneyController.IncreaseMoney(amountToAdd);
-        }
-    }
-    
-
     public void AddClickMoney()
     {
-        _moneyController.IncreaseMoney(_moneyIntIncrease);
+        _moneyManager.IncreaseMoney(_moneyIntIncrease);
     }
     public void IncreaseClickValue()
     {
         _moneyIntIncrease++;
+        //Leaving this text swap here as I shouldn't be modifying it from anywhere else currently, so no need to put
+        //it within the TextManager
         moneyUpButtonText.text = "+" + _moneyIntIncrease + " Money";
     }
 }

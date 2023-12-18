@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ScreenManager : MonoBehaviour
@@ -10,12 +7,11 @@ public class ScreenManager : MonoBehaviour
 
     private void Start()
     {
-        if (!currentlyActiveScreen)
-        {
-            //Need a better way to default to a specific gameobject, but without linking it to the script
-            //Could do a GetComponent if I have a component on the default screen that I can go searching for
-            currentlyActiveScreen = GameObject.Find("MainGameScreen");
-        }
+        if (currentlyActiveScreen) return;
+        //Need a better way to default to a specific gameobject, but without linking it to the script
+        //Could do a GetComponent if I have a component on the default screen that I can go searching for
+        currentlyActiveScreen = GameObject.Find("MainGameScreen");
+        SwapScreenTo(currentlyActiveScreen);
     }
 
     public void SwapScreenTo(GameObject screenToSwapTo)
