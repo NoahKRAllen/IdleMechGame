@@ -53,7 +53,10 @@ public class MoneyManager : MonoBehaviour
         }
 
         _moneyIntHolder -= info.upgradeCost;
-        info.upgradeCost *= 2;
+        //This is the current way we calculate the cost of each upgrade, based off its initial cost times the total
+        //amount of times its been upgraded
+        info.totalAmount++;
+        info.upgradeCost = info.initialCost * info.totalAmount;
         textManager.UpdateMoneyText(_moneyIntHolder);
         textManager.UpdateUpgradeCostText(info.upgradeCost, info.upgradeTextConnection);
         return true;

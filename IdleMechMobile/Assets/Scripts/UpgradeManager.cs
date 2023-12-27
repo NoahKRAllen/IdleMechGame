@@ -17,7 +17,7 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    #region MaterialCollectionUpgrades
+    #region MechPurchaseRegion
     public void CallUpgradeClickValue(UpgradeSelectionInfo info)
     {
         if (_moneyManager.UpgradeValue(info))
@@ -26,6 +26,11 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
+    public void CallPurchaseMech(UpgradeSelectionInfo info)
+    {
+    }
+    #endregion
+    #region MechUpgradeRegion
     public void CallUpgradeCycleValue(UpgradeSelectionInfo info)
     {
         if (_moneyManager.UpgradeValue(info))
@@ -33,7 +38,8 @@ public class UpgradeManager : MonoBehaviour
             _moneyManager.IncreaseTickValue();
         }
     }
-
+    #endregion
+    #region OverallUpgradeRegion
     public void CallUpgradeCycleTimer(UpgradeSelectionInfo info)
     {
         if (_moneyManager.UpgradeValue(info))
