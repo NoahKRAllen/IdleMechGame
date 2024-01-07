@@ -1,0 +1,6 @@
+# This .gitignore file is removing art assets that aren't avalible to share
+
+Mechs/
+./Mechs/PersonalizedMechs/
+./Mechs/PolygonMech/
+Mechs.meta
