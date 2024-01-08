@@ -4,9 +4,8 @@ namespace Managers
 {
     public class ScreenManager : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject currentlyActiveScreen;
-
+        [SerializeField] private GameObject currentlyActiveScreen;
+        private GameObject _activeOverlayScreen;
         private void Start()
         {
             if (currentlyActiveScreen) return;
@@ -21,6 +20,18 @@ namespace Managers
             currentlyActiveScreen.SetActive(false);
             currentlyActiveScreen = screenToSwapTo;
             currentlyActiveScreen.SetActive(true);
+        }
+
+        public void OpenOverlayScreen(GameObject overlayScreen)
+        {
+            _activeOverlayScreen = overlayScreen;
+            _activeOverlayScreen.SetActive(true);
+        }
+        
+        public void CloseOverlayScreen()
+        {
+            _activeOverlayScreen.SetActive(false);
+            _activeOverlayScreen = null;
         }
     }
 }

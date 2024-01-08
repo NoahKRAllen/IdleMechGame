@@ -21,23 +21,28 @@ namespace Managers
 
         public void UpdateUpgradeCostText(BigDouble upgradedCost, TMP_Text textToUpdate)
         {
-            textToUpdate.text = "Spend " + upgradedCost + " Monz To Upgrade";
+            textToUpdate.text = "Spend " + upgradedCost.ToString("G6") + " Monz To Upgrade";
         }
     
         public void UpdateMoneyText(BigDouble value)
         {
-            moneyCounterText.text = "Monz: " + value;
+            moneyCounterText.text = "Monz: " + value.ToString("G6");
         }
 
         public void UpdateCycleValueText(BigDouble value)
         {
-            cycleValueText.text = value + " Per Cycle";
+            cycleValueText.text = value.ToString("G6") + " Monz Per Cycle";
         }
 
         public void UpdateCycleTimer(float value, float maxValue)
         {
             _cycleFillIn.fillAmount = (value / maxValue);
             cycleTimerText.text = value.ToString("F2");
+        }
+
+        public static void UpdateAnyBasicText(TextMeshProUGUI text, string newText)
+        {
+            text.text = newText;
         }
     }
 }

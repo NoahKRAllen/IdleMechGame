@@ -7,8 +7,8 @@ namespace Managers
     {
         [SerializeField] private TextManager textManager;
         private BigDouble _moneyIntHolder;
-
-        private BigDouble _moneyPerTick = 1;
+        [SerializeField]
+        private BigDouble moneyPerTick = 1;
 
         private void Start()
         {
@@ -16,21 +16,27 @@ namespace Managers
             //If the playerpref is empty, we set the value to default
             //if (PlayerPrefs.GetInt(UpgradeCost))
             //{
-            //    UpdateMoneyUpgradeText();
+            UpdateStartMoneyText();
             //    _currentUpgradeMoneyCost = PlayerPrefs.GetInt(UpgradeCost);
             //}
+            
         }
 
+        private void UpdateStartMoneyText()
+        {
+            textManager.UpdateMoneyText(_moneyIntHolder);
+            textManager.UpdateCycleValueText(moneyPerTick);
+        }
         public void IncreaseMoney()
         {
-            _moneyIntHolder += _moneyPerTick;
+            _moneyIntHolder += moneyPerTick;
             textManager.UpdateMoneyText(_moneyIntHolder);
         }
 
         public void IncreaseTickValue(int valueUp)
         {
-            _moneyPerTick += valueUp;
-            textManager.UpdateCycleValueText(_moneyPerTick);
+            moneyPerTick += valueUp;
+            textManager.UpdateCycleValueText(moneyPerTick);
         }
 
         public bool UpgradeValue(UpgradeSelectionInfo info)
