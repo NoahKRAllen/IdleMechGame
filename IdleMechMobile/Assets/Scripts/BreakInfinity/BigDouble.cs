@@ -911,14 +911,18 @@ namespace BreakInfinity
                 }
 
                 var format = places > 0 ? $"G{places}" : "G";
-                if (value.Exponent is < 21 and > -7)
+                if (value.Exponent is > 99)
+                {
+                    return value.Mantissa.ToString("G3", CultureInfo.InvariantCulture)
+                           + "E" + value.Exponent.ToString(CultureInfo.InvariantCulture);
+                }
+                if (value.Exponent is < 5 and >= 0)
                 {
                     return value.ToDouble().ToString(format, CultureInfo.InvariantCulture);
                 }
-
+                
                 return value.Mantissa.ToString(format, CultureInfo.InvariantCulture)
-                       + "E" + (value.Exponent >= 0 ? "+" : "")
-                       + value.Exponent.ToString(CultureInfo.InvariantCulture);
+                       + "E" + value.Exponent.ToString(CultureInfo.InvariantCulture);
             }
 
             private static string ToFixed(double value, int places)
@@ -930,7 +934,7 @@ namespace BreakInfinity
             {
                 if (value.Exponent <= -ExpLimit || IsZero(value.Mantissa))
                 {
-                    return "0" + (places > 0 ? ".".PadRight(places + 1, '0') : "") + "E+0";
+                    return "0" + (places > 0 ? ".".PadRight(places + 1, '0') : "") + "E0";
                 }
 
                 var len = (places >= 0 ? places : MaxSignificantDigits) + 1;
@@ -942,7 +946,7 @@ namespace BreakInfinity
                 {
                     mantissa = mantissa.TrimEnd('0', '.');
                 }
-                return mantissa + "E" + (value.Exponent >= 0 ? "+" : "")
+                return mantissa + "E"
                        + value.Exponent;
             }
 

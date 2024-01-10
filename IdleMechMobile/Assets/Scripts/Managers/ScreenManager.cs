@@ -9,7 +9,7 @@ namespace Managers
         private void Start()
         {
             if (currentlyActiveScreen) return;
-            //Need a better way to default to a specific gameobject, but without linking it to the script
+            //Need a better way to default to a specific GameObject, but without linking it to the script
             //Could do a GetComponent if I have a component on the default screen that I can go searching for
             currentlyActiveScreen = GameObject.Find("MainGameScreen");
             SwapScreenTo(currentlyActiveScreen);
@@ -26,6 +26,12 @@ namespace Managers
         {
             _activeOverlayScreen = overlayScreen;
             _activeOverlayScreen.SetActive(true);
+        }
+
+        public void OpenOverlayScreen(GameObject overlayScreen, int differentMechs)
+        {
+            OpenOverlayScreen(overlayScreen);
+            
         }
         
         public void CloseOverlayScreen()

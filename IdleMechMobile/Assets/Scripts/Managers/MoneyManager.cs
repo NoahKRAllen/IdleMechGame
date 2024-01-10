@@ -1,4 +1,5 @@
 using BreakInfinity;
+using Serialized;
 using UnityEngine;
 
 namespace Managers
@@ -6,9 +7,8 @@ namespace Managers
     public class MoneyManager : MonoBehaviour
     {
         [SerializeField] private TextManager textManager;
-        private BigDouble _moneyIntHolder;
-        [SerializeField]
-        private BigDouble moneyPerTick = 1;
+        private BigDouble _monzBigDoubleHolder;
+        [SerializeField] private BigDouble monzPerTick = 1000;
 
         private void Start()
         {
@@ -24,29 +24,58 @@ namespace Managers
 
         private void UpdateStartMoneyText()
         {
-            textManager.UpdateMoneyText(_moneyIntHolder);
-            textManager.UpdateCycleValueText(moneyPerTick);
+            textManager.UpdateMonzText(_monzBigDoubleHolder);
+            textManager.UpdateCycleValueText(monzPerTick);
         }
         public void IncreaseMoney()
         {
-            _moneyIntHolder += moneyPerTick;
-            textManager.UpdateMoneyText(_moneyIntHolder);
+            ModifyingMonzTotal(monzPerTick, true);
         }
 
-        public void IncreaseTickValue(int valueUp)
+        public void IncreaseTickValue(BigDouble cycleValueUp)
         {
-            moneyPerTick += valueUp;
-            textManager.UpdateCycleValueText(moneyPerTick);
+            ModifyCycleMonzValue(cycleValueUp, true);
         }
 
-        public bool UpgradeValue(UpgradeSelectionInfo info)
+        private void ModifyCycleMonzValue(BigDouble valueToModifyBy, bool increase)
         {
-            if (info.upgradeCost > _moneyIntHolder)
+            if (increase)
+            {
+                monzPerTick += valueToModifyBy;
+            }
+            else
+            {
+                monzPerTick -= valueToModifyBy;
+            }
+            textManager.UpdateCycleValueText(monzPerTick);
+        }
+        public bool TrySpend(BigDouble priceIncoming)
+        {
+            if (priceIncoming > _monzBigDoubleHolder) return false;
+            
+            ModifyingMonzTotal(priceIncoming, false);
+            return true;
+        }
+
+        private void ModifyingMonzTotal(BigDouble priceToModifyBy, bool increase)
+        {
+            if (increase)
+            {
+                _monzBigDoubleHolder += priceToModifyBy;
+            }
+            else
+            {
+                _monzBigDoubleHolder -= priceToModifyBy;
+            }
+            textManager.UpdateMonzText(_monzBigDoubleHolder);
+        }
+        
+        public bool UpgradeValue(PurchaseInfo info)
+        {
+            if (TrySpend(info.purchaseCost))
             {
                 return false;
-            }
-
-            _moneyIntHolder -= info.upgradeCost;
+            } 
             //This is the current way we calculate the cost of each upgrade, based off its initial cost times the total
             //amount of times its been upgraded
             info.totalAmount++;
@@ -55,11 +84,11 @@ namespace Managers
             //is the best way instead of doing a fixed value. So starting at 1.15 until a certain
             //amount is bought, then going to 1.2 or whatever. This scaling only works once
             //there are upgrades that increase the value each mech is generating.
-            info.upgradeCost = info.initialCost * info.totalAmount;
+            info.purchaseCost = info.initialCost * info.totalAmount;
         
 
-            textManager.UpdateMoneyText(_moneyIntHolder);
-            textManager.UpdateUpgradeCostText(info.upgradeCost, info.upgradeTextConnection);
+            textManager.UpdateMonzText(_monzBigDoubleHolder);
+            textManager.UpdateUpgradeCostText(info.purchaseCost, info.costTextConnection);
             return true;
         }
     }

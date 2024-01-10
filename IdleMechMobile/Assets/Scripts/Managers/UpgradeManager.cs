@@ -1,3 +1,4 @@
+using Serialized;
 using UnityEngine;
 
 namespace Managers
@@ -7,7 +8,7 @@ namespace Managers
         [SerializeField] private MoneyManager moneyManager;
         [SerializeField] private TimeCycleManager timeCycleManager;
         #region MechPurchaseRegion
-        public void CallPurchaseMech(UpgradeSelectionInfo info)
+        public void CallPurchaseMech(PurchaseInfo info)
         {
             //This needs to call increase tick value as the basic stat
             //Once this is in place, it will modify the basics of the tick value upgrades as the upgrade will be upgrading the value gained from each purchased/built mech
@@ -15,7 +16,7 @@ namespace Managers
         }
         #endregion
         #region MechUpgradeRegion
-        public void CallUpgradeCycleValue(UpgradeSelectionInfo info)
+        public void CallUpgradeCycleValue(PurchaseInfo info)
         {
             if (moneyManager.UpgradeValue(info))
             {
@@ -26,7 +27,7 @@ namespace Managers
         }
         #endregion
         #region OverallUpgradeRegion
-        public void CallUpgradeCycleTimer(UpgradeSelectionInfo info)
+        public void CallUpgradeCycleTimer(PurchaseInfo info)
         {
             if (moneyManager.UpgradeValue(info))
             {

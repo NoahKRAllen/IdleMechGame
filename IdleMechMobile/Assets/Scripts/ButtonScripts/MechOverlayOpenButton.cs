@@ -1,33 +1,36 @@
 using Managers;
+using MechMenuScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ButtonScripts
 {
-    public class MechOverlayOpenButton : MonoBehaviour
+    public class MechOverlayOpenButton : ButtonParent
     {
         private GameObject _overlayScreen;
-        private Button _button;
-        private ScreenManager _screenManager;
+        private IndividualMechScreen _mechScreen;
+
         private void OnEnable()
         {
-            if (!_button) _button = GetComponent<Button>();
-            _button.onClick.AddListener(OverlayScreen);
+            if (!ButtonChild) ButtonChild = GetComponent<Button>();
+            ButtonChild.onClick.AddListener(OverlayScreen);
         }
 
-        public void SetupOverlayButton(GameObject overlayScreen, ScreenManager screenManager)
+        public void SetupOverlayButton(GameObject overlayScreen, ScreenManager screenManager, int totalDifferentMechs)
         {
             _overlayScreen = overlayScreen;
-            _screenManager = screenManager;
+            _mechScreen = _overlayScreen.GetComponent<IndividualMechScreen>();
+            _mechScreen.SetCostMultiplier(totalDifferentMechs);
+            screenManagerChild = screenManager;
         }
         private void OverlayScreen()
         {
-            _screenManager.OpenOverlayScreen(_overlayScreen);
+            screenManagerChild.OpenOverlayScreen(_overlayScreen);
         }
         
         private void OnDisable()
         {
-            _button.onClick.RemoveListener(OverlayScreen);
+            ButtonChild.onClick.RemoveListener(OverlayScreen);
         }
     }
 }

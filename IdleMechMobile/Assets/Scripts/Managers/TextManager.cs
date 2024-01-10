@@ -24,7 +24,7 @@ namespace Managers
             textToUpdate.text = "Spend " + upgradedCost.ToString("G6") + " Monz To Upgrade";
         }
     
-        public void UpdateMoneyText(BigDouble value)
+        public void UpdateMonzText(BigDouble value)
         {
             moneyCounterText.text = "Monz: " + value.ToString("G6");
         }

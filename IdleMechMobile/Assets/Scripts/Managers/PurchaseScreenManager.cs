@@ -16,6 +16,10 @@ namespace Managers
         private GameObject _overlayScreen;
         private string _buttonText = string.Empty;
 
+        //This will be what we pass into the button that is made, giving us the multiplier for that specific mech
+        //dependent on how many previous different mechs have been made.
+        private int _totalDifferentMechs;
+        
         
         //These two functions are called off the same button click, doing the checks to ensure both have triggered
         //before calling the main function. This allows me to not have a script handle the calls so I'm not
@@ -42,8 +46,9 @@ namespace Managers
             foreach (var button in emptyMechButtons)
             {
                 if (!button.isActiveAndEnabled) continue;
+                _totalDifferentMechs++;
                 var modifiedButton = Instantiate(mechOverlayOpenButton, uiParent.transform);
-                modifiedButton.GetComponent<MechOverlayOpenButton>().SetupOverlayButton(_overlayScreen, screenManager);
+                modifiedButton.GetComponent<MechOverlayOpenButton>().SetupOverlayButton(_overlayScreen, screenManager, _totalDifferentMechs);
                 modifiedButton.transform.SetSiblingIndex(button.transform.GetSiblingIndex());
                 
                 button.GameObject().SetActive(false);
