@@ -12,11 +12,11 @@ namespace MechMenuScripts
         //This will hold the unlocked slots, which need no logic done on them, however will need to be toggled on when the corresponding locked slot is toggled off
         [SerializeField] private GameObject[] unlockedSlots;
 
-        [SerializeField] private MoneyManager moneyManager;
+        [SerializeField] private MonzManager monzManager;
         public void UnlockSlot(GameObject slotCallingUnlock, BigDouble priceToUnlock)
         {
             //Now we must do the logic here to handle reaching out to the MoneyManager and ensure we actually have the money to unlock this spot.
-            if (!moneyManager.TrySpend(priceToUnlock)) return;
+            if (!monzManager.TrySpend(priceToUnlock)) return;
             //For now, we will be manually putting in the price for each slot, later I wish to update this to manage it mathematically.
             
             

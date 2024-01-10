@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Managers
 {
     public class TimeCycleManager : MonoBehaviour
     {
         [SerializeField] private TextManager textManager;
-        [SerializeField] private MoneyManager moneyManager;
+        [FormerlySerializedAs("moneyManager")] [SerializeField] private MonzManager monzManager;
         [SerializeField] float cycleDuration;
         [SerializeField] float cycleTimer;
         // Start is called before the first frame update
@@ -23,7 +24,7 @@ namespace Managers
             textManager.UpdateCycleTimer(cycleTimer, cycleDuration);
             if (!(cycleTimer < 0.0f)) return;
             cycleTimer = cycleDuration;
-            moneyManager.IncreaseMoney();
+            monzManager.IncreaseMoney();
         }
     
     

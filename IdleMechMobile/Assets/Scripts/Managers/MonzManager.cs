@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Managers
 {
-    public class MoneyManager : MonoBehaviour
+    public class MonzManager : MonoBehaviour
     {
         [SerializeField] private TextManager textManager;
         private BigDouble _monzBigDoubleHolder;

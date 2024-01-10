@@ -8,6 +8,10 @@ namespace ButtonScripts
         private void OnEnable()
         {
             if (!ButtonChild) ButtonChild = GetComponent<Button>();
+
+            IsUnlocked = true;
+
+            if(IsUnlocked) Managers.ButtonUnlockManager.UnlockButton(this);
             ButtonChild.onClick.AddListener(CloseOverlay); 
         }
 
@@ -19,6 +23,8 @@ namespace ButtonScripts
         private void OnDisable()
         {
             ButtonChild.onClick.RemoveListener(CloseOverlay);
+            
+            Managers.ButtonUnlockManager.LockButton(this);
         }
     }
 }

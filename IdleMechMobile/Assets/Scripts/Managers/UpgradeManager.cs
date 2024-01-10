@@ -1,11 +1,12 @@
 using Serialized;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Managers
 {
     public class UpgradeManager : MonoBehaviour
     {
-        [SerializeField] private MoneyManager moneyManager;
+        [FormerlySerializedAs("moneyManager")] [SerializeField] private MonzManager monzManager;
         [SerializeField] private TimeCycleManager timeCycleManager;
         #region MechPurchaseRegion
         public void CallPurchaseMech(PurchaseInfo info)
@@ -18,18 +19,18 @@ namespace Managers
         #region MechUpgradeRegion
         public void CallUpgradeCycleValue(PurchaseInfo info)
         {
-            if (moneyManager.UpgradeValue(info))
+            if (monzManager.UpgradeValue(info))
             {
                 //Currently hardcoded as I get things working
                 //This will be changed to info.Multiplier once its working
-                moneyManager.IncreaseTickValue(info.multiplierAmount);
+                monzManager.IncreaseTickValue(info.multiplierAmount);
             }
         }
         #endregion
         #region OverallUpgradeRegion
         public void CallUpgradeCycleTimer(PurchaseInfo info)
         {
-            if (moneyManager.UpgradeValue(info))
+            if (monzManager.UpgradeValue(info))
             {
                 timeCycleManager.DecreaseCycleTimer(info.multiplierAmount);
             }

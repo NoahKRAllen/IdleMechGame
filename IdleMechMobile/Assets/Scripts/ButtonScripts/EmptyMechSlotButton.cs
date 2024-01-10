@@ -24,6 +24,10 @@ namespace ButtonScripts
         private void Start()
         {
             if (!ButtonChild) ButtonChild = GetComponent<Button>();
+            
+            
+            //The code below will probably be dropped to just be handled with the ButtonUnlockManager
+            //once testing is done
             if (transform.GetSiblingIndex() == 0)
             {
                 return;
@@ -34,6 +38,8 @@ namespace ButtonScripts
         private void OnEnable()
         {
             if (!ButtonChild) ButtonChild = GetComponent<Button>();
+
+            if(IsUnlocked) Managers.ButtonUnlockManager.UnlockButton(this);
 
             ButtonChild.onClick.AddListener(SwapToMechSelection);
             
@@ -47,6 +53,8 @@ namespace ButtonScripts
         private void OnDisable()
         {
             ButtonChild.onClick.RemoveListener(SwapToMechSelection);
+            
+            Managers.ButtonUnlockManager.LockButton(this);
         }
     }
 }
