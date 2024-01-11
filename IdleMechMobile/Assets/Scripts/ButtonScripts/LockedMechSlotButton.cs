@@ -14,6 +14,14 @@ namespace ButtonScripts
             if (!ButtonChild) ButtonChild = GetComponent<Button>();
             if (!_mechSlot) _mechSlot = GetComponent<MechSlot>();            
             ButtonChild.onClick.AddListener(_mechSlot.CallUnlockSlot);
+            SendNewText();
+        }
+
+        private void SendNewText()
+        {
+            string priceToString = priceToUnlock.ToString();
+            string newText = $"Locked Mech Slot\n\nSpend price {priceToString} Monz to Unlock";
+            _mechSlot.CallUpdateMechSlotText(newText);
         }
         public BigDouble GetPriceToUnlock()
         {

@@ -22,7 +22,6 @@ namespace Managers
 
         public void AffectMechSlot(string mechName, GameObject overlayScreen)
         {
-            Debug.Log("made it to manager");
             mechSlotParent.AffectMechSlot(mechName, overlayScreen);
         }
         public void SetCurrentMechSlot(MechSlot incomingMechSlot)

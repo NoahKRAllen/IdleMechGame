@@ -19,6 +19,10 @@ namespace MechMenuScripts
             if (!_mechOverlayOpenButton) _mechOverlayOpenButton = GetComponent<MechOverlayOpenButton>();
         }
 
+        public void CallUpdateMechSlotText(string newText)
+        {
+            mechSlotsParent.UpdateMechSlotText(buttonText, newText);
+        }
         public void CallUnlockSlot()
         {
             if (!mechSlotsParent.UnlockSlot(_lockedSlotButton.GetPriceToUnlock()))

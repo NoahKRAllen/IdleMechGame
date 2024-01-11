@@ -1,6 +1,6 @@
 using BreakInfinity;
-using ButtonScripts;
 using Managers;
+using TMPro;
 using UnityEngine;
 
 namespace MechMenuScripts
@@ -12,6 +12,7 @@ namespace MechMenuScripts
         [SerializeField] private MonzManager monzManager;
 
         [SerializeField] private MechSelectionScreenManager mechSelectionScreenManager;
+
         public bool UnlockSlot(BigDouble priceToUnlock)
         {
             //Now we must do the logic here to handle reaching out to the MoneyManager and ensure we actually have the money to unlock this spot.
@@ -28,13 +29,16 @@ namespace MechMenuScripts
             mechSelectionScreenManager.SetCurrentMechSlot(currentMechSlot);
         }
 
+        public void UpdateMechSlotText(TextMeshProUGUI textToUpdate, string newText)
+        {
+            TextManager.UpdateAnyBasicText(textToUpdate, newText);
+        }
 
         private string _tempNameHolder;
         private GameObject _overlayScreenHolder;
         public bool mechSelected;
         public void AffectMechSlot(string mechName, GameObject overlayScreen)
         {
-            Debug.Log("Made it to parent");
             _tempNameHolder = mechName;
             _overlayScreenHolder = overlayScreen;
             mechSelected = true;
