@@ -9,9 +9,6 @@ namespace ButtonScripts
         private void OnEnable()
         {
             if (!ButtonChild) ButtonChild = GetComponent<Button>();
-
-            if(IsUnlocked) Managers.ButtonUnlockManager.UnlockButton(this);
-            
             ButtonChild.onClick.AddListener(SwapScreen);
         }
     
@@ -23,9 +20,11 @@ namespace ButtonScripts
         private void OnDisable()
         {
             ButtonChild.onClick.RemoveListener(SwapScreen);
-            
-            if(IsUnlocked) Managers.ButtonUnlockManager.UnlockButton(this);
+        }
 
+        public void ChangeTargetScreen(GameObject newScreen)
+        {
+            swapScreen = newScreen;
         }
     }
 }

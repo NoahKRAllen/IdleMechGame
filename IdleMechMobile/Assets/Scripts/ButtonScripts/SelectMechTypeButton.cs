@@ -1,4 +1,5 @@
 using Managers;
+using MechMenuScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,8 +11,9 @@ namespace ButtonScripts
         //researched through the upgrade tree
         //Actually might just make a secondary script for them that sets them non-interactable
         //and then is what is called when the upgrade is done
+        private MechSlot _mechSlot;
         [SerializeField] private MechSelectionScreenManager mechSelectionScreenManager;
-        [SerializeField] private PurchaseScreenManager purchaseScreenManager;
+        //[SerializeField] private PurchaseScreenManager purchaseScreenManager;
         [SerializeField] private string mechName;
         [SerializeField] private GameObject overlayScreen;
         [SerializeField] private GameObject mechPurchaseScreen;
@@ -19,16 +21,15 @@ namespace ButtonScripts
         {
             if (!ButtonChild) ButtonChild = GetComponent<Button>();
             
-            if(IsUnlocked) ButtonUnlockManager.UnlockButton(this);
-            
+
             ButtonChild.onClick.AddListener(CallSelectMech);
         }
 
         private void CallSelectMech()
         {
-            purchaseScreenManager.SetButtonText(mechName);
-            purchaseScreenManager.SetOverlayScreen(overlayScreen);
-            mechSelectionScreenManager.MechSelected(ButtonChild);
+            //mechSelectionScreenManager.MechSelected(ButtonChild);
+            ButtonChild.interactable = false;
+            mechSelectionScreenManager.AffectMechSlot(mechName, overlayScreen);
             screenManagerChild.SwapScreenTo(mechPurchaseScreen);
         }
 
@@ -36,8 +37,6 @@ namespace ButtonScripts
         {
             ButtonChild.onClick.RemoveListener(CallSelectMech);
             
-            if(IsUnlocked) ButtonUnlockManager.UnlockButton(this);
-
         }
     }
 }

@@ -8,9 +8,6 @@ namespace ButtonScripts
     {
         protected Button ButtonChild;
         [SerializeField] protected ScreenManager screenManagerChild;
-
-        //Only serializing this to allow changing on a few buttons that need to be locked
-        [SerializeField] protected bool IsUnlocked;
         //Currently all buttons are unlocked, there needs to be a way to set 
         //the individual buttons to locked, based on the player's research
         //However the research system isn't in place yet, so I'm manually locking
@@ -27,15 +24,13 @@ namespace ButtonScripts
         //Calls used only within the ButtonUnlockManager, storied here to allow
         //ButtonUnlockManager to be completely static for ease of access across
         //multiple classes
-        public virtual void UnlockButton()
+        public void UnlockButton()
         {
-            IsUnlocked = true;
             ButtonChild.interactable = true;
         }
 
         public void LockButton()
         {
-            IsUnlocked = false;
             ButtonChild.interactable = false;
         }
     }

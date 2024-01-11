@@ -1,4 +1,5 @@
 using BreakInfinity;
+using ButtonScripts;
 using Managers;
 using UnityEngine;
 
@@ -6,24 +7,43 @@ namespace MechMenuScripts
 {
     public class MechSlotsParent : MonoBehaviour
     {
-        //This will hold all locked slots, allowing logic to be done on each in order instead of finagling with the hierarchy order.
-        [SerializeField] private GameObject[] lockedSlots;
-
-        //This will hold the unlocked slots, which need no logic done on them, however will need to be toggled on when the corresponding locked slot is toggled off
-        [SerializeField] private GameObject[] unlockedSlots;
-
+        [SerializeField] private MechSlot[] mechSlots;
+        
         [SerializeField] private MonzManager monzManager;
-        public void UnlockSlot(GameObject slotCallingUnlock, BigDouble priceToUnlock)
+
+        [SerializeField] private MechSelectionScreenManager mechSelectionScreenManager;
+        public bool UnlockSlot(BigDouble priceToUnlock)
         {
             //Now we must do the logic here to handle reaching out to the MoneyManager and ensure we actually have the money to unlock this spot.
-            if (!monzManager.TrySpend(priceToUnlock)) return;
-            //For now, we will be manually putting in the price for each slot, later I wish to update this to manage it mathematically.
-            
-            
-            var index = System.Array.IndexOf(lockedSlots, slotCallingUnlock);
-            lockedSlots[index].SetActive(false);
-            unlockedSlots[index].SetActive(true);
+            return monzManager.TrySpend(priceToUnlock);
+            //For now, we will be manually putting in the price for each slot, later I wish to update this to manage it mathematically
+
+            //var index = System.Array.IndexOf(lockedSlots, slotCallingUnlock);
+            //lockedSlots[index].SetActive(false);
+            //unlockedSlots[index].SetActive(true);
         }
-        
+
+        public void SendCurrentMechSlotToManager(MechSlot currentMechSlot)
+        {
+            mechSelectionScreenManager.SetCurrentMechSlot(currentMechSlot);
+        }
+
+
+        private string _tempNameHolder;
+        private GameObject _overlayScreenHolder;
+        public bool mechSelected;
+        public void AffectMechSlot(string mechName, GameObject overlayScreen)
+        {
+            Debug.Log("Made it to parent");
+            _tempNameHolder = mechName;
+            _overlayScreenHolder = overlayScreen;
+            mechSelected = true;
+        }
+
+        public string MechSlotRequestInfo(out GameObject overlayScreen)
+        {
+            overlayScreen = _overlayScreenHolder;
+            return _tempNameHolder;
+        }
     }
 }

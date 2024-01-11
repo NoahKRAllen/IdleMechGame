@@ -39,7 +39,6 @@ namespace ButtonScripts
         {
             if (!ButtonChild) ButtonChild = GetComponent<Button>();
 
-            if(IsUnlocked) Managers.ButtonUnlockManager.UnlockButton(this);
 
             ButtonChild.onClick.AddListener(SwapToMechSelection);
             
@@ -54,7 +53,6 @@ namespace ButtonScripts
         {
             ButtonChild.onClick.RemoveListener(SwapToMechSelection);
             
-            Managers.ButtonUnlockManager.LockButton(this);
         }
     }
 }

@@ -7,27 +7,21 @@ namespace ButtonScripts
 {
     public class LockedMechSlotButton : ButtonParent
     {
-        [SerializeField] private MechSlotsParent parentObject;
+        private MechSlot _mechSlot;
         [SerializeField] private BigDouble priceToUnlock;
         private void OnEnable()
         {
             if (!ButtonChild) ButtonChild = GetComponent<Button>();
-            
-            if(IsUnlocked) Managers.ButtonUnlockManager.UnlockButton(this);
-            
-            ButtonChild.onClick.AddListener(CallUnlockSlot);
+            if (!_mechSlot) _mechSlot = GetComponent<MechSlot>();            
+            ButtonChild.onClick.AddListener(_mechSlot.CallUnlockSlot);
         }
-
-        private void CallUnlockSlot()
+        public BigDouble GetPriceToUnlock()
         {
-            parentObject.UnlockSlot(gameObject, priceToUnlock);
+            return priceToUnlock;
         }
         private void OnDisable()
         {
-            ButtonChild.onClick.RemoveListener(CallUnlockSlot);
-            
-            if(IsUnlocked) Managers.ButtonUnlockManager.UnlockButton(this);
-
+            ButtonChild.onClick.RemoveListener(_mechSlot.CallUnlockSlot);
         }
     }
 }
