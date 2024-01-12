@@ -29,7 +29,6 @@ namespace ButtonScripts
         
         private void MechOverlaySwapScreen()
         {
-            _mechSlot.PassAlongCurrentMechSlot();
             screenManagerChild.SwapScreenTo(swapScreen);
         }
         

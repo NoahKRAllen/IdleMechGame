@@ -7,11 +7,16 @@ namespace Managers
     public class MonzManager : MonoBehaviour
     {
         [SerializeField] private TextManager textManager;
+        //TODO: This value needs to be saved in the save system
         private BigDouble _monzBigDoubleHolder;
-        [SerializeField] private BigDouble monzPerTick = 1000;
+        [SerializeField] private BigDouble monzPerTick;
 
         private void Start()
         {
+            if (monzPerTick == 0)
+            {
+                monzPerTick++;
+            }
             //This if check will be modified to respond when we load in the playerprefs
             //If the playerpref is empty, we set the value to default
             //if (PlayerPrefs.GetInt(UpgradeCost))
@@ -36,7 +41,6 @@ namespace Managers
         {
             ModifyCycleMonzValue(cycleValueUp, true);
         }
-
         private void ModifyCycleMonzValue(BigDouble valueToModifyBy, bool increase)
         {
             if (increase)
@@ -49,10 +53,17 @@ namespace Managers
             }
             textManager.UpdateCycleValueText(monzPerTick);
         }
+        
+        public void UpdateTickValue(BigDouble newTickValue)
+        {
+            monzPerTick = newTickValue;
+            textManager.UpdateCycleValueText(monzPerTick);
+        }
+
+        
         public bool TrySpend(BigDouble priceIncoming)
         {
             if (priceIncoming > _monzBigDoubleHolder) return false;
-            
             ModifyingMonzTotal(priceIncoming, false);
             return true;
         }
@@ -72,7 +83,23 @@ namespace Managers
         
         public bool UpgradeValue(PurchaseInfo info)
         {
-            if (TrySpend(info.purchaseCost))
+            if (!TrySpend(info.purchaseCost))
+            {
+                return false;
+            } 
+            info.totalAmount++;
+            
+            info.purchaseCost = info.initialCost * info.totalAmount * 1.2;
+        
+
+            textManager.UpdateMonzText(_monzBigDoubleHolder);
+            textManager.UpdateUpgradeCostText(info.purchaseCost, info.costTextConnection);
+            return true;
+        }
+        public bool UpgradeValue(UpgradeInfo info)
+        {
+            Debug.Log(info.upgradeCost);
+            if (!TrySpend(info.upgradeCost))
             {
                 return false;
             } 
@@ -84,11 +111,11 @@ namespace Managers
             //is the best way instead of doing a fixed value. So starting at 1.15 until a certain
             //amount is bought, then going to 1.2 or whatever. This scaling only works once
             //there are upgrades that increase the value each mech is generating.
-            info.purchaseCost = info.initialCost * info.totalAmount;
+            info.upgradeCost = info.initialCost * info.totalAmount * .8;
         
 
             textManager.UpdateMonzText(_monzBigDoubleHolder);
-            textManager.UpdateUpgradeCostText(info.purchaseCost, info.costTextConnection);
+            textManager.UpdateUpgradeCostText(info.upgradeCost, info.costTextConnection);
             return true;
         }
     }

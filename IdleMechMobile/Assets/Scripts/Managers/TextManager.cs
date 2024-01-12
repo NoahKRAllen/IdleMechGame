@@ -21,7 +21,7 @@ namespace Managers
 
         public void UpdateUpgradeCostText(BigDouble upgradedCost, TMP_Text textToUpdate)
         {
-            textToUpdate.text = "Spend " + upgradedCost.ToString("G6") + " Monz To Upgrade";
+            textToUpdate.text = "Spend " + upgradedCost.ToString("G6") + " Monz\nTo Upgrade";
         }
     
         public void UpdateMonzText(BigDouble value)

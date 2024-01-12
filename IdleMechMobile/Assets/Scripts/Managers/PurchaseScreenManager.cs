@@ -9,6 +9,9 @@ namespace Managers
 {
     public class PurchaseScreenManager : MonoBehaviour
     {
+        //CURRENT A DEAD MANAGER, POSSIBLE TO BE REVIVED FOR NEW PURCHASE SETUP SOON
+        
+        
         [SerializeField] private Button[] emptyMechButtons;
         [SerializeField] private MechSlot uiParent;
         [SerializeField] private GameObject mechOverlayOpenButton;

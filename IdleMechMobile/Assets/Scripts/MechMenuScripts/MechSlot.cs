@@ -45,10 +45,5 @@ namespace MechMenuScripts
         {
             return mechSlotsParent.mechSelected;
         }
-        
-        public void PassAlongCurrentMechSlot()
-        {
-            mechSlotsParent.SendCurrentMechSlotToManager(this);
-        }
     }
 }

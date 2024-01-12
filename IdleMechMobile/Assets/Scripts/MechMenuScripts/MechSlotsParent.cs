@@ -7,6 +7,8 @@ namespace MechMenuScripts
 {
     public class MechSlotsParent : MonoBehaviour
     {
+        
+        //TODO: Need to get someway to link the mechSlots to their selected mech, probably through the totalmechsmanager or something so it can be saved in the save system
         [SerializeField] private MechSlot[] mechSlots;
         
         [SerializeField] private MonzManager monzManager;
@@ -22,11 +24,6 @@ namespace MechMenuScripts
             //var index = System.Array.IndexOf(lockedSlots, slotCallingUnlock);
             //lockedSlots[index].SetActive(false);
             //unlockedSlots[index].SetActive(true);
-        }
-
-        public void SendCurrentMechSlotToManager(MechSlot currentMechSlot)
-        {
-            mechSelectionScreenManager.SetCurrentMechSlot(currentMechSlot);
         }
 
         public void UpdateMechSlotText(TextMeshProUGUI textToUpdate, string newText)

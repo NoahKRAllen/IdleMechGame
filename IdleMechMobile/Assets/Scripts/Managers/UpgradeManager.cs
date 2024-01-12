@@ -1,30 +1,38 @@
+using BreakInfinity;
 using Serialized;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Managers
 {
     public class UpgradeManager : MonoBehaviour
     {
-        [FormerlySerializedAs("moneyManager")] [SerializeField] private MonzManager monzManager;
+        [SerializeField] private MonzManager monzManager;
         [SerializeField] private TimeCycleManager timeCycleManager;
+        [SerializeField] private TotalMechsManager totalMechsManager;
         #region MechPurchaseRegion
-        public void CallPurchaseMech(PurchaseInfo info)
+        public bool CallPurchaseMech(PurchaseInfo info)
         {
-            //This needs to call increase tick value as the basic stat
-            //Once this is in place, it will modify the basics of the tick value upgrades as the upgrade will be upgrading the value gained from each purchased/built mech
-            //Anything else will be extra fluff, like another mech visual in the army or whatever
+            if (!monzManager.UpgradeValue(info)) return false;
+            var totalValueOfAllMechs = !totalMechsManager.CheckAllMechCollection(info.mechName) ? totalMechsManager.AddMechToCollection(info) : totalMechsManager.UpdateMechInCollection(info);
+            monzManager.UpdateTickValue(totalValueOfAllMechs);
+            return true;
         }
         #endregion
         #region MechUpgradeRegion
-        public void CallUpgradeCycleValue(PurchaseInfo info)
+        public bool CallUpgradeMech(UpgradeInfo info)
         {
-            if (monzManager.UpgradeValue(info))
+            BigDouble totalValueOfAllMechs;
+            if (!monzManager.UpgradeValue(info)) return false;
+            if (!totalMechsManager.CheckAllMechCollection(info.mechName)) return false;
+            else
             {
-                //Currently hardcoded as I get things working
-                //This will be changed to info.Multiplier once its working
-                monzManager.IncreaseTickValue(info.multiplierAmount);
+                totalValueOfAllMechs = totalMechsManager.UpdateMechInCollection(info);
             }
+            monzManager.UpdateTickValue(totalValueOfAllMechs);
+            
+            
+            return true;
         }
         #endregion
         #region OverallUpgradeRegion
@@ -32,7 +40,7 @@ namespace Managers
         {
             if (monzManager.UpgradeValue(info))
             {
-                timeCycleManager.DecreaseCycleTimer(info.multiplierAmount);
+                timeCycleManager.DecreaseCycleTimer(info.totalValuePerMech);
             }
         }
         #endregion
