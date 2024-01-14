@@ -14,8 +14,8 @@ namespace Managers
         public bool CallPurchaseMech(PurchaseInfo info)
         {
             if (!monzManager.UpgradeValue(info)) return false;
-            var totalValueOfAllMechs = !totalMechsManager.CheckAllMechCollection(info.mechName) ? totalMechsManager.AddMechToCollection(info) : totalMechsManager.UpdateMechInCollection(info);
-            monzManager.UpdateTickValue(totalValueOfAllMechs);
+            var totalValueOfAllMechs = totalMechsManager.CheckAllMechCollection(info.mechName) ? totalMechsManager.AddMechToCollection(info) : totalMechsManager.UpdateMechInCollection(info);
+            monzManager.UpdateCycleValue(totalValueOfAllMechs);
             return true;
         }
         #endregion
@@ -29,7 +29,7 @@ namespace Managers
             {
                 totalValueOfAllMechs = totalMechsManager.UpdateMechInCollection(info);
             }
-            monzManager.UpdateTickValue(totalValueOfAllMechs);
+            monzManager.UpdateCycleValue(totalValueOfAllMechs);
             
             
             return true;

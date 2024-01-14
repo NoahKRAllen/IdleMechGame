@@ -1,21 +1,22 @@
 using BreakInfinity;
+using DataPersistence;
 using Serialized;
 using UnityEngine;
 
 namespace Managers
 {
-    public class MonzManager : MonoBehaviour
+    public class MonzManager : MonoBehaviour, IDataPersistence
     {
         [SerializeField] private TextManager textManager;
         //TODO: This value needs to be saved in the save system
         private BigDouble _monzBigDoubleHolder;
-        [SerializeField] private BigDouble monzPerTick;
-
+        private BigDouble _monzPerCycle;
+        
         private void Start()
         {
-            if (monzPerTick == 0)
+            if (_monzPerCycle == 0)
             {
-                monzPerTick++;
+                _monzPerCycle++;
             }
             //This if check will be modified to respond when we load in the playerprefs
             //If the playerpref is empty, we set the value to default
@@ -30,14 +31,14 @@ namespace Managers
         private void UpdateStartMoneyText()
         {
             textManager.UpdateMonzText(_monzBigDoubleHolder);
-            textManager.UpdateCycleValueText(monzPerTick);
+            textManager.UpdateCycleValueText(_monzPerCycle);
         }
         public void IncreaseMoney()
         {
-            ModifyingMonzTotal(monzPerTick, true);
+            ModifyingMonzTotal(_monzPerCycle, true);
         }
 
-        public void IncreaseTickValue(BigDouble cycleValueUp)
+        public void IncreaseCycleValue(BigDouble cycleValueUp)
         {
             ModifyCycleMonzValue(cycleValueUp, true);
         }
@@ -45,19 +46,19 @@ namespace Managers
         {
             if (increase)
             {
-                monzPerTick += valueToModifyBy;
+                _monzPerCycle += valueToModifyBy;
             }
             else
             {
-                monzPerTick -= valueToModifyBy;
+                _monzPerCycle -= valueToModifyBy;
             }
-            textManager.UpdateCycleValueText(monzPerTick);
+            textManager.UpdateCycleValueText(_monzPerCycle);
         }
         
-        public void UpdateTickValue(BigDouble newTickValue)
+        public void UpdateCycleValue(BigDouble newCycleValue)
         {
-            monzPerTick = newTickValue;
-            textManager.UpdateCycleValueText(monzPerTick);
+            _monzPerCycle = newCycleValue;
+            textManager.UpdateCycleValueText(_monzPerCycle);
         }
 
         
@@ -117,6 +118,18 @@ namespace Managers
             textManager.UpdateMonzText(_monzBigDoubleHolder);
             textManager.UpdateUpgradeCostText(info.upgradeCost, info.costTextConnection);
             return true;
+        }
+
+        public void LoadData(GameData data)
+        {
+            _monzBigDoubleHolder = data.totalMonzSaved;
+            _monzPerCycle = data.monzPerCycleSaved;
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.totalMonzSaved = _monzBigDoubleHolder;
+            data.monzPerCycleSaved = _monzPerCycle;
         }
     }
 }

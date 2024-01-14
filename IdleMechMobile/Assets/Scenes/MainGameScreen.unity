@@ -1961,10 +1961,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mechSlots:
   - {fileID: 1972626133}
-  - {fileID: 1650471943}
-  - {fileID: 1194650728}
+  - {fileID: 1650471941}
+  - {fileID: 1194650726}
   monzManager: {fileID: 1887798682}
-  mechSelectionScreenManager: {fileID: 0}
+  mechSelectionScreenManager: {fileID: 711815773}
   mechSelected: 0
 --- !u!1 &286712547
 GameObject:
@@ -7694,6 +7694,7 @@ GameObject:
   - component: {fileID: 1194650730}
   - component: {fileID: 1194650729}
   - component: {fileID: 1194650728}
+  - component: {fileID: 1194650734}
   m_Layer: 5
   m_Name: MechSlot 003
   m_TagString: Untagged
@@ -7735,6 +7736,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonText: {fileID: 897028229}
   mechSlotsParent: {fileID: 267397077}
+  lockedSlotButton: {fileID: 1194650730}
 --- !u!114 &1194650729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7847,6 +7849,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1194650726}
   m_CullTransparentMesh: 1
+--- !u!114 &1194650734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194650726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1210b4d912adc5d41805bf9bf7c87b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1254539800
 GameObject:
   m_ObjectHideFlags: 0
@@ -8621,57 +8635,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1447582445}
   m_CullTransparentMesh: 1
---- !u!1 &1475406632
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1475406633}
-  - component: {fileID: 1475406634}
-  m_Layer: 0
-  m_Name: PurchaseScreenManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1475406633
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1475406632}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1656016565}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1475406634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1475406632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee3a79b61cb83bf40851ffc8c8cba504, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  emptyMechButtons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  uiParent: {fileID: 1518505638}
-  mechOverlayOpenButton: {fileID: 5231584077610601378, guid: 52e6c51e01fc4dd47bb2d9fb69ae67fd, type: 3}
-  screenManager: {fileID: 1254539802}
 --- !u!1 &1476154666
 GameObject:
   m_ObjectHideFlags: 0
@@ -9977,6 +9940,7 @@ GameObject:
   - component: {fileID: 1650471945}
   - component: {fileID: 1650471944}
   - component: {fileID: 1650471943}
+  - component: {fileID: 1650471949}
   m_Layer: 5
   m_Name: MechSlot 002
   m_TagString: Untagged
@@ -10018,6 +9982,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonText: {fileID: 68954360}
   mechSlotsParent: {fileID: 267397077}
+  lockedSlotButton: {fileID: 1650471945}
 --- !u!114 &1650471944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10130,6 +10095,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650471941}
   m_CullTransparentMesh: 1
+--- !u!114 &1650471949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650471941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1210b4d912adc5d41805bf9bf7c87b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1656016564
 GameObject:
   m_ObjectHideFlags: 0
@@ -10164,10 +10141,10 @@ Transform:
   - {fileID: 750083789}
   - {fileID: 1430860359}
   - {fileID: 1254539801}
-  - {fileID: 1475406633}
   - {fileID: 711815772}
   - {fileID: 267397076}
   - {fileID: 1487677042}
+  - {fileID: 2074078459}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1661911632
@@ -11108,9 +11085,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textManager: {fileID: 750083788}
-  monzPerTick:
-    mantissa: 5
-    exponent: 1
 --- !u!4 &1887798683
 Transform:
   m_ObjectHideFlags: 0
@@ -11662,6 +11636,7 @@ GameObject:
   - component: {fileID: 1972626138}
   - component: {fileID: 1972626140}
   - component: {fileID: 1972626141}
+  - component: {fileID: 1972626142}
   m_Layer: 5
   m_Name: MechSlot 001
   m_TagString: Untagged
@@ -11815,6 +11790,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonText: {fileID: 2036066835}
   mechSlotsParent: {fileID: 267397077}
+  lockedSlotButton: {fileID: 0}
+--- !u!114 &1972626142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972626133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1210b4d912adc5d41805bf9bf7c87b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1990726173
 GameObject:
   m_ObjectHideFlags: 0
@@ -12222,6 +12210,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036066833}
   m_CullTransparentMesh: 1
+--- !u!1 &2074078458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2074078459}
+  - component: {fileID: 2074078460}
+  m_Layer: 0
+  m_Name: DataPersistenceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2074078459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074078458}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1656016565}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2074078460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074078458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4858c0b21f3f5cb4fb065a258f33e566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileName: data.game
 --- !u!1001 &2079993975
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ namespace ButtonScripts
         private void SendNewText()
         {
             string priceToString = priceToUnlock.ToString();
-            string newText = $"Locked Mech Slot\n\nSpend price {priceToString} Monz to Unlock";
+            string newText = $"Locked Mech Slot\n\nSpend {priceToString} Monz to Unlock";
             _mechSlot.CallUpdateMechSlotText(newText);
         }
         public BigDouble GetPriceToUnlock()

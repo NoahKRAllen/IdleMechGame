@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BreakInfinity;
+using DataPersistence;
 using Serialized;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Managers
 {
-    public class TotalMechsManager : MonoBehaviour
+    public class TotalMechsManager : MonoBehaviour, IDataPersistence
     {
         //TODO: This list needs to be saved in the save system
         private List<MechCollection> _allMechs = new List<MechCollection>();
@@ -16,7 +17,7 @@ namespace Managers
 
         public bool CheckAllMechCollection(string newMechName)
         {
-            return _allMechs.Any(mech => mech.MechName == newMechName);
+            return _allMechs.All(mech => mech.MechName != newMechName);
         }
 
         public BigDouble AddMechToCollection(PurchaseInfo info)
@@ -64,9 +65,19 @@ namespace Managers
 
             return totalValue;
         }
+        
+        public void LoadData(GameData data)
+        {
+            _allMechs = data.allMechsSaved;
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.allMechsSaved = _allMechs;
+        }
     }
     [Serializable]
-    internal class MechCollection
+    public class MechCollection
     {
         public readonly string MechName;
         public BigDouble totalMechs;

@@ -1,3 +1,4 @@
+using DataPersistence;
 using MechMenuScripts;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,8 @@ namespace ButtonScripts
     {
         private MechSlot _mechSlot;
         private GameObject _overlayScreen;
+
+        private bool _mechSelected;
         //private IndividualMechScreen _mechScreen; ignoring this for now
         [SerializeField] private GameObject swapScreen;
 
@@ -19,21 +22,24 @@ namespace ButtonScripts
             if (!_mechSlot.CheckMechSelected())
             {
                 ButtonChild.onClick.AddListener(MechOverlaySwapScreen);
+                _mechSelected = false;
             }
 
-            if (_mechSlot.CheckMechSelected())
+            if (_mechSlot.CheckMechSelected() && _mechSlot == _mechSlot.RequestActiveMechSlot())
             {
                 _mechSlot.SetupOverlayButton();
+                _mechSelected = true;
             }
         }
         
         private void MechOverlaySwapScreen()
         {
+            _mechSlot.PassActiveSlotUp();
             screenManagerChild.SwapScreenTo(swapScreen);
         }
         
         
-        public void SetupOverlayButton(GameObject overlayScreen)
+        public void SetupListeningOverlayButton(GameObject overlayScreen)
         {
             _overlayScreen = overlayScreen;
             ButtonChild.onClick.AddListener(OverlayScreen);
@@ -57,6 +63,16 @@ namespace ButtonScripts
                 ButtonChild.onClick.RemoveListener(OverlayScreen);
             }
 
+        }
+
+        public GameObject GetOverlayScreen()
+        {
+            return _overlayScreen;
+        }
+
+        public bool IsMechSelected()
+        {
+            return _mechSelected;
         }
     }
 }
