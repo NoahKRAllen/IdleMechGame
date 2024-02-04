@@ -61,8 +61,11 @@ namespace MechMenuScripts
 
         #region SaveFunctions
 
-        
 
+        public bool GetMechSelected()
+        {
+            return _mechOverlayOpenButton.IsMechSelected();
+        }
         public string GetTextObject()
         {
             return buttonText.text;

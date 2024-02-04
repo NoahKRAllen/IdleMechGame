@@ -1,3 +1,4 @@
+using System;
 using BreakInfinity;
 using ButtonScripts;
 using DataPersistence;
@@ -8,8 +9,29 @@ namespace MechMenuScripts
 {
     public class MechSlotSaveObject : MonoBehaviour
     {
-        //From mechslot, we need the buttonText, and which of the two buttons are active
-        private MechSlot _mechSlot;
+        public MechSlot mechSlot;
+        public bool isUnlocked;
+        public bool isMechSelected;
+        public string mechName;
+
+        public void RebuildButton()
+        {
+            
+        }
+
+        private void OnEnable()
+        {
+            if (!mechSlot)
+            {
+                mechSlot = GetComponent<MechSlot>();
+                isUnlocked = mechSlot.IsButtonLocked();
+                isMechSelected = mechSlot.GetMechSelected();
+                mechName = mechSlot.name;
+            }
+        }
+
+        /*//From mechslot, we need the buttonText, and which of the two buttons are active
+
         private string _buttonText;
         private bool _isLocked;
         
@@ -53,7 +75,7 @@ namespace MechMenuScripts
         {
             _mechSlot.UpdateButtonText(_buttonText);
             _mechSlot.UpdateIsLocked(_isLocked);
-        }
+        }*/
 
     }
 }

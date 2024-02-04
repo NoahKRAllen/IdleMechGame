@@ -58,7 +58,7 @@ namespace MechMenuScripts
         public void LoadData(GameData data)
         {
             mechSlots = data.mechSlotsSaved;
-            if (mechSlots == null || mechSlots.Count == 0)
+            if (mechSlots == null || mechSlots.Count == 0 || (mechSlots[0] == null && mechSlots[1] == null && mechSlots[2] == null))
             {
                 Debug.Log("Refilling emptied mechslotparent list:");
                 var foundMechSlots = FindObjectsOfType<MechSlotSaveObject>();
