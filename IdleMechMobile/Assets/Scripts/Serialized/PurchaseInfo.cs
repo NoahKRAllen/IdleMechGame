@@ -28,5 +28,14 @@ namespace Serialized
         public int totalValuePerMech = 1;
         //If I put this in in the future, its the cost enhancement that happens from buying other mech types before this one. For now, ignoring to get project working 1/12/2024
         public int initialMultiplierCost = 1;
+
+        private void OnEnable()
+        {
+            // find my text if there is one and tell him the cost for this Purchase
+            if (costTextConnection!= null)
+            {
+                costTextConnection.text = $"Spend {purchaseCost.ToDouble()} Monz\nTo Upgrade";
+            }
+        }
     }
 }

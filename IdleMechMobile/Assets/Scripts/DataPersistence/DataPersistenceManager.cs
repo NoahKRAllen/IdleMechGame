@@ -3,32 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 namespace DataPersistence
 {
-    public class DataPersistenceManager : MonoBehaviour
+    public class DataPersistenceManager : Singleton<DataPersistenceManager>
     {
         [Header("File Storage Config")] 
         [SerializeField] private string fileName;
         
-        
-        
         private GameData _gameData;
         private List<IDataPersistence> _dataPersistenceObjects;
         private FileDataHandler _dataHandler;
-        public static DataPersistenceManager Instance { get; private set; }
-        private void Awake()
-        {
-            if (Instance != null)
-            {
-                Debug.LogError("Attempting to create more than one Data Persistence Manager in the Scene");
-            }
 
-            Instance = this;
-        }
+        // private static UnityEngine.Events.UnityAction<Scene, LoadSceneMode> LoadAfterSceneLoad;
 
         private void Start()
         {
+            Debug.Log($"In DataPersistenceManager Start");
             _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
@@ -38,6 +30,7 @@ namespace DataPersistence
         public void NewGame()
         {
             _gameData = new GameData();
+            // TODO: some reasonable defaults here, perhaps pulled from a scriptable object?
         }
 
         public void LoadGame()
@@ -50,25 +43,39 @@ namespace DataPersistence
                 Debug.Log("No saved data found. Initializing data to defaults");
                 NewGame();
             }
-
+            // using this delegate to wait until we know the scene is done loading
+            // LoadAfterSceneLoad = (scene, LoadSceneMode) =>
+            // {
+            //     Debug.Log($"Scene {scene.name} loaded. Loading data...");
+            //     foreach (var dataPersistenceObj in _dataPersistenceObjects)
+            //     {
+            //         dataPersistenceObj.LoadData(_gameData);
+            //     }
+            //
+            //     // clear the scene loader
+            //     SceneManager.sceneLoaded -= LoadAfterSceneLoad;
+            //     LoadAfterSceneLoad = null;
+            // };
             foreach (var dataPersistenceObj in _dataPersistenceObjects)
             {
+                Debug.Log($"loading data for {dataPersistenceObj.GetType().Name} ", gameObject);
                 dataPersistenceObj.LoadData(_gameData);
             }
-
-            //TODO: remove this, load game will not be selectable if there is no game data found
-            // TODO: Push the loaded data to all other scripts that need it
+            
+            // add the LoadAFterSceneLoad listener to get fired after all Start, Awakes, etc of scene events
+            // SceneManager.sceneLoaded += LoadAfterSceneLoad;
+            
         }
 
         public void SaveGame()
         {
-            //TODO: Pass gameData to the other scripts so that they can update it
+            //Pass gameData to the other scripts so that they can update it
             foreach (var dataPersistenceObj in _dataPersistenceObjects)
             {
                 dataPersistenceObj.SaveData(ref _gameData);
             }
 
-            //TODO: save that data to a file using the data handler
+            //save that data to a file using the data handler
             _dataHandler.Save(_gameData);
         }
 

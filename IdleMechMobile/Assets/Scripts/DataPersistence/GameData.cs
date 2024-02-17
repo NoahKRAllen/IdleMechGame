@@ -11,11 +11,13 @@ namespace DataPersistence
     {
         public BigDouble totalMonzSaved;
         public BigDouble monzPerCycleSaved;
-        public List<MechSlotSaveObject> mechSlotsSaved;
+        // public List<MechSlotSaveObject> mechSlotsSaved;
         public List<MechCollection> allMechsSaved;
         public GameData()
         {
+            Debug.Log($"Initializing Game Data");
             totalMonzSaved = 0;
+            monzPerCycleSaved = 0;
         }
     }
 }

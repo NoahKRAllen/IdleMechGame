@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 namespace ButtonScripts
 {
+    [RequireComponent(typeof(MechSlot))]
+    [RequireComponent(typeof(Button))]
     public class MechOverlayOpenButton : ButtonParent
     {
         private MechSlot _mechSlot;
