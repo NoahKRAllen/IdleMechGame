@@ -7664,7 +7664,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonText: {fileID: 897028229}
   mechSlotsParent: {fileID: 267397077}
-  mechSelected: 0
   lockedSlotButton: {fileID: 1194650730}
 --- !u!114 &1194650729
 MonoBehaviour:
@@ -9863,7 +9862,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonText: {fileID: 68954360}
   mechSlotsParent: {fileID: 267397077}
-  mechSelected: 0
   lockedSlotButton: {fileID: 1650471945}
 --- !u!114 &1650471944
 MonoBehaviour:
@@ -11667,7 +11665,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonText: {fileID: 2036066835}
   mechSlotsParent: {fileID: 267397077}
-  mechSelected: 0
   lockedSlotButton: {fileID: 0}
 --- !u!114 &1972626142
 MonoBehaviour:
