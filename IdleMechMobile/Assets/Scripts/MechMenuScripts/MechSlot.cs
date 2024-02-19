@@ -14,7 +14,7 @@ namespace MechMenuScripts
         //or just the buttonText to state it is still a locked slot
         public LockedMechSlotButton lockedSlotButton;
         private MechOverlayOpenButton _mechOverlayOpenButton;
-    
+        
         private void OnEnable()
         {
             if (!lockedSlotButton) lockedSlotButton = GetComponent<LockedMechSlotButton>();

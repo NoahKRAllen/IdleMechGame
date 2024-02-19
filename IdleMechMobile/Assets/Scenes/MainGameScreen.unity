@@ -7861,6 +7861,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1210b4d912adc5d41805bf9bf7c87b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mechSlot: {fileID: 0}
+  isUnlocked: 0
+  isMechSelected: 0
+  mechName: 
 --- !u!1 &1254539800
 GameObject:
   m_ObjectHideFlags: 0
@@ -10107,6 +10111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1210b4d912adc5d41805bf9bf7c87b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mechSlot: {fileID: 0}
+  isUnlocked: 0
+  isMechSelected: 0
+  mechName: 
 --- !u!1 &1656016564
 GameObject:
   m_ObjectHideFlags: 0
@@ -11803,6 +11811,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1210b4d912adc5d41805bf9bf7c87b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mechSlot: {fileID: 0}
+  isUnlocked: 0
+  isMechSelected: 0
+  mechName: 
 --- !u!1 &1990726173
 GameObject:
   m_ObjectHideFlags: 0

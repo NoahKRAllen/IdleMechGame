@@ -23,7 +23,7 @@ namespace GameLoopScripts
         {
             if (upgradeManager.CallPurchaseMech(_purchaseInfo))
             {
-                //Do some fancy sound or visual here to show the player bought the mech
+                //Do some fancy sound or visual here to show the player bought the mechnb 
             }
         }
         
