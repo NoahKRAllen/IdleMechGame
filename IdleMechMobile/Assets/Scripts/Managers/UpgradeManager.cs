@@ -16,10 +16,21 @@ namespace Managers
                 Debug.Log($"can't purchase mech {info.mechName}");
                 return false;
             }
-            var totalValueOfAllMechs = TotalMechsManager.Instance.CheckAllMechCollection(info.mechName)
-                ? TotalMechsManager.Instance.AddMechToCollection(info)
-                : TotalMechsManager.Instance.UpdateMechInCollection(info);
-            MonzManager.Instance.UpdateCycleValue(totalValueOfAllMechs);
+
+            var checkForNoMechMatching = TotalMechsManager.Instance.CheckForMechMatching(info.mechName);
+            BigDouble totalValueOfMechs = 0;
+            if (! checkForNoMechMatching)
+            {
+                Debug.Log($"UM: didn't have mech {info.mechName}, adding him", gameObject);
+                totalValueOfMechs = TotalMechsManager.Instance.AddMechToCollection(info);
+            }
+            else
+            {
+                Debug.Log($"UM: Already had {info.mechName}, updating him", gameObject);
+                totalValueOfMechs = TotalMechsManager.Instance.UpdateMechInCollection(info);
+            }
+            
+            MonzManager.Instance.UpdateCycleValue(totalValueOfMechs);
             return true;
         }
 
@@ -31,7 +42,7 @@ namespace Managers
         {
             BigDouble totalValueOfAllMechs;
             if (!MonzManager.Instance.UpgradeValue(info)) return false;
-            if (!TotalMechsManager.Instance.CheckAllMechCollection(info.mechName))
+            if (!TotalMechsManager.Instance.CheckForMechMatching(info.mechName))
             {
                 return false;
             }
