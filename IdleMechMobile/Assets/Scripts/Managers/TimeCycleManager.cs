@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 namespace Managers
@@ -7,6 +8,9 @@ namespace Managers
     {
         [SerializeField] float cycleDuration;
         [SerializeField] float cycleTimer;
+        
+        // an event for when the time cycle is over
+        public UnityEvent OnTimeCycleOver;
      
         // Start is called before the first frame update
         void Start()
@@ -23,9 +27,9 @@ namespace Managers
             TextManager.Instance.UpdateCycleTimer(cycleTimer, cycleDuration);
             if (!(cycleTimer < 0.0f)) return;
             cycleTimer = cycleDuration;
+            OnTimeCycleOver?.Invoke(); // ping all things that timer is over
             MonzManager.Instance.IncreaseMoney();
         }
-    
     
         public void DecreaseCycleTimer(int multipler)
         {
