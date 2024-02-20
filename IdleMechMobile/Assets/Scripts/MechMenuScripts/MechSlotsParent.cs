@@ -22,7 +22,14 @@ namespace MechMenuScripts
             // TODO: subscribe to data change events in TotalMechsManager
         }
 
-        
+        public void ClearSelectedMechSlot()
+        {
+            Debug.Log($"MSP: Clearing selected mech slot data", gameObject);
+            _activelyUpdatingMechSlot = null;
+            _tempNameHolder = null;
+            _overlayScreenHolder = null;
+            mechSelected = false;
+        }
         public bool UnlockSlot(BigDouble priceToUnlock)
         {
             return MonzManager.Instance.TrySpend(priceToUnlock);
@@ -37,7 +44,7 @@ namespace MechMenuScripts
         {
             _tempNameHolder = mechName;
             _overlayScreenHolder = overlayScreen;
-            mechSelected = true;  //FIXME:  How do I know which child mech slot has been impacted?  
+            mechSelected = true;
         }
 
         public string MechSlotRequestInfo(out GameObject overlayScreen)

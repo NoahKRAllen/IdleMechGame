@@ -17,9 +17,9 @@ namespace Managers
                 return false;
             }
 
-            var checkForNoMechMatching = TotalMechsManager.Instance.CheckForMechMatching(info.mechName);
+            var checkForMechNameInMechsManager = TotalMechsManager.Instance.CheckForMechMatching(info.mechName);
             BigDouble totalValueOfMechs = 0;
-            if (! checkForNoMechMatching)
+            if (! checkForMechNameInMechsManager)
             {
                 Debug.Log($"UM: didn't have mech {info.mechName}, adding him", gameObject);
                 totalValueOfMechs = TotalMechsManager.Instance.AddMechToCollection(info);

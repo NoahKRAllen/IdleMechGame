@@ -20,7 +20,7 @@ namespace DataPersistence
 
         private void Start()
         {
-            Debug.Log($"In DataPersistenceManager Start");
+            Debug.Log($"DPM: In DataPersistenceManager Start");
             _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
@@ -40,7 +40,7 @@ namespace DataPersistence
             
             if (_gameData == null)
             {
-                Debug.Log("No saved data found. Initializing data to defaults");
+                Debug.Log("DPM: No saved data found. Initializing data to defaults");
                 NewGame();
             }
             // using this delegate to wait until we know the scene is done loading
@@ -58,7 +58,7 @@ namespace DataPersistence
             // };
             foreach (var dataPersistenceObj in _dataPersistenceObjects)
             {
-                Debug.Log($"loading data for {dataPersistenceObj.GetType().Name} ", gameObject);
+                Debug.Log($"DPM: loading data for {dataPersistenceObj.GetType().Name} ", gameObject);
                 dataPersistenceObj.LoadData(_gameData);
             }
             

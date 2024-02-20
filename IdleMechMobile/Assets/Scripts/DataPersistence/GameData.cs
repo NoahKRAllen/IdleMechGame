@@ -15,7 +15,7 @@ namespace DataPersistence
         public List<MechCollection> allMechsSaved;
         public GameData()
         {
-            Debug.Log($"Initializing Game Data");
+            Debug.Log($"GD: Initializing Game Data");
             totalMonzSaved = 0;
             monzPerCycleSaved = 0;
         }

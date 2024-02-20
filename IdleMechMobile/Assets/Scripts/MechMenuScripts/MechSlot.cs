@@ -45,7 +45,7 @@ namespace MechMenuScripts
             // TODO: collect the army counts we have in this slot
             // TotalMechsManager.Instance.GetMech(mechName);
             
-            Debug.Log($"setting up overlay button for {mechName}", gameObject);
+            Debug.Log($"MS: setting up overlay button for {mechName}", gameObject);
             mechSlotsParent.UpdateMechSlotText(buttonText, mechName);
             _mechOverlayOpenButton.SetupListeningOverlayButton(overlayScreen);
             mechSlotsParent.mechSelected = false;

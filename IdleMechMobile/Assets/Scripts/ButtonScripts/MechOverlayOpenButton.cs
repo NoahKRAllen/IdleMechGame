@@ -23,12 +23,14 @@ namespace ButtonScripts
             
             if (!_mechSlot.CheckMechSelected())
             {
+                Debug.Log($"MOOB: In slot {_mechSlot.gameObject.name} but no mech selected", gameObject);
                 ButtonChild.onClick.AddListener(MechOverlaySwapScreen);
                 _mechSelected = false;
             }
 
             if (_mechSlot.CheckMechSelected() && _mechSlot == _mechSlot.RequestActiveMechSlot())
             {
+                Debug.Log($"MOOB: in slot {_mechSlot.gameObject.name}, mechSelected and RequestActiveMechSlot() true", gameObject);
                 _mechSlot.SetupOverlayButton();
                 _mechSelected = true;
             }

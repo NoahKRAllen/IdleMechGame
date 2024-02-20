@@ -87,6 +87,7 @@ namespace Managers
             if (_allMechs.Count == 0)
             {
                 Debug.Log($"TMM: All mech count was 0");
+                
                 return;
             }
             Debug.Log($"TMM: seeing allMechs: total mech slots filled of {_allMechs.Count}");
@@ -180,6 +181,7 @@ namespace Managers
                     break;
                 }
             }
+            mechSlotParent.ClearSelectedMechSlot(); // clear the selected mech slot for upcoming game state
             MonzManager.Instance.SetLoadBool(false);  // tell MonzManager that we are done loading!
         }
 

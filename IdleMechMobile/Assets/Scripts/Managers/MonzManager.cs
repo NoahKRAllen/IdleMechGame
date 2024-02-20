@@ -1,5 +1,6 @@
 using BreakInfinity;
 using DataPersistence;
+using MechMenuScripts;
 using Serialized;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace Managers
 
         private void Start()
         {
-            Debug.Log($"{nameof(MonzManager)} started");
+            Debug.Log($"MM: {nameof(MonzManager)} started");
             if (_monzPerCycle < 1)
             {
                 _monzPerCycle = 1;
@@ -24,7 +25,7 @@ namespace Managers
 
         private void UpdateStartMoneyText()
         {
-            Debug.Log($"updating money text to {_monzBigDoubleHolder} and {_monzPerCycle}");
+            Debug.Log($"MM: updating money text to {_monzBigDoubleHolder} and {_monzPerCycle}");
             TextManager.Instance.UpdateMonzText(_monzBigDoubleHolder);
             TextManager.Instance.UpdateCycleValueText(_monzPerCycle);
         }
@@ -103,7 +104,7 @@ namespace Managers
             
             if (!TrySpend(info.upgradeCost))
             {
-                Debug.Log($"Can't spend {info.upgradeCost}", gameObject);
+                Debug.Log($"MM: Can't spend {info.upgradeCost}", gameObject);
                 return false;
             } 
             //This is the current way we calculate the cost of each upgrade, based off its initial cost times the total
@@ -124,7 +125,7 @@ namespace Managers
         public void LoadData(GameData data)
         {
             SetLoadBool(true); // tell the monz manager that we are in load process, to not check or deduct money
-            Debug.Log($"in LoadData of MonzManager {data.totalMonzSaved} {data.monzPerCycleSaved}");
+            Debug.Log($"MM: in LoadData {data.totalMonzSaved} {data.monzPerCycleSaved}");
             ModifyingMonzTotal(data.totalMonzSaved, increase: true);  // use real methods to explicitly call logic in them
             ModifyCycleMonzValue(data.monzPerCycleSaved, increase: true);
             SetLoadBool(false); // tell the monz manager that we are in load process, to not check or deduct money
@@ -132,7 +133,7 @@ namespace Managers
 
         public void SaveData(ref GameData data)
         {
-            Debug.Log($"In SaveData of MonzManager: {_monzBigDoubleHolder} {_monzPerCycle}");
+            Debug.Log($"MM: In SaveData {_monzBigDoubleHolder} {_monzPerCycle}");
             data.totalMonzSaved = _monzBigDoubleHolder;
             data.monzPerCycleSaved = _monzPerCycle;
         }
