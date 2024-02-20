@@ -1,48 +1,71 @@
 using BreakInfinity;
 using Serialized;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Managers
 {
-    public class UpgradeManager : MonoBehaviour
+    public class UpgradeManager : Singleton<UpgradeManager>
     {
-        [SerializeField] private MonzManager monzManager;
-        [SerializeField] private TimeCycleManager timeCycleManager;
-        [SerializeField] private TotalMechsManager totalMechsManager;
+
         #region MechPurchaseRegion
+
         public bool CallPurchaseMech(PurchaseInfo info)
         {
-            if (!monzManager.UpgradeValue(info)) return false;
-            var totalValueOfAllMechs = totalMechsManager.CheckAllMechCollection(info.mechName) ? totalMechsManager.AddMechToCollection(info) : totalMechsManager.UpdateMechInCollection(info);
-            monzManager.UpdateCycleValue(totalValueOfAllMechs);
+            if (!MonzManager.Instance.UpgradeValue(info))
+            {
+                Debug.Log($"can't purchase mech {info.mechName}");
+                return false;
+            }
+
+            var checkForMechNameInMechsManager = TotalMechsManager.Instance.CheckForMechMatching(info.mechName);
+            BigDouble totalValueOfMechs = 0;
+            if (! checkForMechNameInMechsManager)
+            {
+                Debug.Log($"UM: didn't have mech {info.mechName}, adding him", gameObject);
+                totalValueOfMechs = TotalMechsManager.Instance.AddMechToCollection(info);
+            }
+            else
+            {
+                Debug.Log($"UM: Already had {info.mechName}, updating him", gameObject);
+                totalValueOfMechs = TotalMechsManager.Instance.UpdateMechInCollection(info);
+            }
+            
+            MonzManager.Instance.UpdateCycleValue(totalValueOfMechs);
             return true;
         }
+
         #endregion
+
         #region MechUpgradeRegion
+
         public bool CallUpgradeMech(UpgradeInfo info)
         {
             BigDouble totalValueOfAllMechs;
-            if (!monzManager.UpgradeValue(info)) return false;
-            if (!totalMechsManager.CheckAllMechCollection(info.mechName)) return false;
-            else
+            if (!MonzManager.Instance.UpgradeValue(info)) return false;
+            if (!TotalMechsManager.Instance.CheckForMechMatching(info.mechName))
             {
-                totalValueOfAllMechs = totalMechsManager.UpdateMechInCollection(info);
+                return false;
             }
-            monzManager.UpdateCycleValue(totalValueOfAllMechs);
-            
-            
+
+            totalValueOfAllMechs = TotalMechsManager.Instance.UpdateMechInCollection(info);
+            MonzManager.Instance.UpdateCycleValue(totalValueOfAllMechs);
+
             return true;
         }
+
         #endregion
+
         #region OverallUpgradeRegion
+
         public void CallUpgradeCycleTimer(PurchaseInfo info)
         {
-            if (monzManager.UpgradeValue(info))
+            if (MonzManager.Instance.UpgradeValue(info))
             {
-                timeCycleManager.DecreaseCycleTimer(info.totalValuePerMech);
+                TimeCycleManager.Instance.DecreaseCycleTimer(info.totalValuePerMech);
             }
         }
+
         #endregion
+
     }
 }

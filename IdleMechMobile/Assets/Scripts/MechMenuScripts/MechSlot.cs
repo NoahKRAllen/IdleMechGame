@@ -2,14 +2,16 @@ using ButtonScripts;
 using Managers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace MechMenuScripts
 {
+    [RequireComponent(typeof(LockedMechSlotButton))]
+    [RequireComponent(typeof(MechOverlayOpenButton))]
     public class MechSlot : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI buttonText;
         [SerializeField] private MechSlotsParent mechSlotsParent;
+        // [SerializeField] public bool mechSelected;
         //TODO: Save this script, using the script enable to decide what the save hits, be it the required mech overlay 
         //or just the buttonText to state it is still a locked slot
         public LockedMechSlotButton lockedSlotButton;
@@ -39,6 +41,11 @@ namespace MechMenuScripts
         public void SetupOverlayButton()
         {
             var mechName = mechSlotsParent.MechSlotRequestInfo(out var overlayScreen);
+            
+            // TODO: collect the army counts we have in this slot
+            // TotalMechsManager.Instance.GetMech(mechName);
+            
+            Debug.Log($"MS: setting up overlay button for {mechName}", gameObject);
             mechSlotsParent.UpdateMechSlotText(buttonText, mechName);
             _mechOverlayOpenButton.SetupListeningOverlayButton(overlayScreen);
             mechSlotsParent.mechSelected = false;
@@ -55,7 +62,7 @@ namespace MechMenuScripts
         }
         public bool CheckMechSelected()
         {
-            return mechSlotsParent.mechSelected;
+            return mechSlotsParent.mechSelected; // return if this particular slot has a value in it
         }
 
 

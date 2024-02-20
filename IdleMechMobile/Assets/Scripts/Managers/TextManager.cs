@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 namespace Managers
 {
-    public class TextManager : MonoBehaviour
+    public class TextManager : Singleton<TextManager>
     {
         [SerializeField] private TextMeshProUGUI moneyCounterText;
-
         [SerializeField] private TextMeshProUGUI cycleValueText;
         [SerializeField] private TextMeshProUGUI cycleTimerText;
         [SerializeField] private GameObject cycleVisual;
         private Image _cycleFillIn;
 
+        
         private void Start()
         {
             _cycleFillIn = cycleVisual.GetComponent<Image>();
@@ -21,17 +21,17 @@ namespace Managers
 
         public void UpdateUpgradeCostText(BigDouble upgradedCost, TMP_Text textToUpdate)
         {
-            textToUpdate.text = "Spend " + upgradedCost.ToString("G6") + " Monz\nTo Upgrade";
+            textToUpdate.text = $"Spend {upgradedCost.ToDouble()} Monz\nTo Upgrade";
         }
     
         public void UpdateMonzText(BigDouble value)
         {
-            moneyCounterText.text = "Monz: " + value.ToString("G6");
+            moneyCounterText.text = $"Monz: {value.ToDouble()}";
         }
 
         public void UpdateCycleValueText(BigDouble value)
         {
-            cycleValueText.text = value.ToString("G6") + " Monz Per Cycle";
+            cycleValueText.text = $"{value.ToDouble()} Monz Per Cycle";
         }
 
         public void UpdateCycleTimer(float value, float maxValue)

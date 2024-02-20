@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 namespace ButtonScripts
 {
+    [RequireComponent(typeof(MechSlot))]
+    [RequireComponent(typeof(Button))]
     public class LockedMechSlotButton : ButtonParent
     {
         private MechSlot _mechSlot;
@@ -19,8 +21,7 @@ namespace ButtonScripts
 
         private void SendNewText()
         {
-            string priceToString = priceToUnlock.ToString();
-            string newText = $"Locked Mech Slot\n\nSpend {priceToString} Monz to Unlock";
+            string newText = $"Locked Mech Slot\n\nSpend {priceToUnlock.ToDouble()} Monz to Unlock";
             _mechSlot.CallUpdateMechSlotText(newText);
         }
         public BigDouble GetPriceToUnlock()

@@ -1,3 +1,4 @@
+using MechMenuScripts;
 using UnityEngine;
 
 namespace Managers
@@ -6,6 +7,7 @@ namespace Managers
     {
         [SerializeField] private GameObject currentlyActiveScreen;
         private GameObject _activeOverlayScreen;
+        [SerializeField] private MechSlotsParent MechSlotsParent;
         private void Start()
         {
             if (currentlyActiveScreen) return;
@@ -24,6 +26,7 @@ namespace Managers
 
         public void OpenOverlayScreen(GameObject overlayScreen)
         {
+            Debug.Log($"SM: Opening overlay screen: {overlayScreen.name}", gameObject);
             _activeOverlayScreen = overlayScreen;
             _activeOverlayScreen.SetActive(true);
         }
@@ -36,8 +39,12 @@ namespace Managers
         
         public void CloseOverlayScreen()
         {
+            Debug.Log($"SM: Closing all overlay screens", gameObject);
             _activeOverlayScreen.SetActive(false);
             _activeOverlayScreen = null;
+            
+            // todo: tell MechSlotsParent to clear his state tracking as well
+            MechSlotsParent.ClearSelectedMechSlot();
         }
     }
 }

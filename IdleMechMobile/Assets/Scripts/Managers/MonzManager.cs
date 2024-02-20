@@ -1,41 +1,42 @@
 using BreakInfinity;
 using DataPersistence;
+using MechMenuScripts;
 using Serialized;
 using UnityEngine;
 
 namespace Managers
 {
-    public class MonzManager : MonoBehaviour, IDataPersistence
+    public class MonzManager : Singleton<MonzManager>, IDataPersistence
     {
-        [SerializeField] private TextManager textManager;
-        //TODO: This value needs to be saved in the save system
         private BigDouble _monzBigDoubleHolder;
         private BigDouble _monzPerCycle;
-        
+        private bool _isLoading;
+        public bool IsLoading => _isLoading;
+
         private void Start()
         {
-            if (_monzPerCycle == 0)
+            Debug.Log($"MM: {nameof(MonzManager)} started");
+            if (_monzPerCycle < 1)
             {
-                _monzPerCycle++;
+                _monzPerCycle = 1;
             }
-            //This if check will be modified to respond when we load in the playerprefs
-            //If the playerpref is empty, we set the value to default
-            //if (PlayerPrefs.GetInt(UpgradeCost))
-            //{
             UpdateStartMoneyText();
-            //    _currentUpgradeMoneyCost = PlayerPrefs.GetInt(UpgradeCost);
-            //}
-            
         }
 
         private void UpdateStartMoneyText()
         {
-            textManager.UpdateMonzText(_monzBigDoubleHolder);
-            textManager.UpdateCycleValueText(_monzPerCycle);
+            Debug.Log($"MM: updating money text to {_monzBigDoubleHolder} and {_monzPerCycle}");
+            TextManager.Instance.UpdateMonzText(_monzBigDoubleHolder);
+            TextManager.Instance.UpdateCycleValueText(_monzPerCycle);
         }
         public void IncreaseMoney()
         {
             ModifyingMonzTotal(_monzPerCycle, true);
+        }
+
+        public void SetLoadBool(bool isLoading)
+        {
+            _isLoading = isLoading;
         }
 
         public void IncreaseCycleValue(BigDouble cycleValueUp)
@@ -52,18 +53,19 @@ namespace Managers
             {
                 _monzPerCycle -= valueToModifyBy;
             }
-            textManager.UpdateCycleValueText(_monzPerCycle);
+            TextManager.Instance.UpdateCycleValueText(_monzPerCycle);
         }
         
         public void UpdateCycleValue(BigDouble newCycleValue)
         {
             _monzPerCycle = newCycleValue;
-            textManager.UpdateCycleValueText(_monzPerCycle);
+            TextManager.Instance.UpdateCycleValueText(_monzPerCycle);
         }
 
         
         public bool TrySpend(BigDouble priceIncoming)
         {
+            if (_isLoading) return true; // during load state, allow logic to run without impacting monz balance
             if (priceIncoming > _monzBigDoubleHolder) return false;
             ModifyingMonzTotal(priceIncoming, false);
             return true;
@@ -79,29 +81,30 @@ namespace Managers
             {
                 _monzBigDoubleHolder -= priceToModifyBy;
             }
-            textManager.UpdateMonzText(_monzBigDoubleHolder);
+            TextManager.Instance.UpdateMonzText(_monzBigDoubleHolder);
         }
         
         public bool UpgradeValue(PurchaseInfo info)
         {
-            if (!TrySpend(info.purchaseCost))
+            if (! _isLoading && !TrySpend(info.purchaseCost) ) // if not in load state, and you can't afford, false
             {
                 return false;
             } 
             info.totalAmount++;
             
             info.purchaseCost = info.initialCost * info.totalAmount * 1.2;
-        
-
-            textManager.UpdateMonzText(_monzBigDoubleHolder);
-            textManager.UpdateUpgradeCostText(info.purchaseCost, info.costTextConnection);
+            
+            TextManager.Instance.UpdateMonzText(_monzBigDoubleHolder);
+            TextManager.Instance.UpdateUpgradeCostText(info.purchaseCost, info.costTextConnection);
             return true;
         }
         public bool UpgradeValue(UpgradeInfo info)
         {
-            Debug.Log(info.upgradeCost);
+            // Debug.Log(info.upgradeCost);
+            
             if (!TrySpend(info.upgradeCost))
             {
+                Debug.Log($"MM: Can't spend {info.upgradeCost}", gameObject);
                 return false;
             } 
             //This is the current way we calculate the cost of each upgrade, based off its initial cost times the total
@@ -113,21 +116,24 @@ namespace Managers
             //amount is bought, then going to 1.2 or whatever. This scaling only works once
             //there are upgrades that increase the value each mech is generating.
             info.upgradeCost = info.initialCost * info.totalAmount * .8;
-        
-
-            textManager.UpdateMonzText(_monzBigDoubleHolder);
-            textManager.UpdateUpgradeCostText(info.upgradeCost, info.costTextConnection);
+            
+            TextManager.Instance.UpdateMonzText(_monzBigDoubleHolder);
+            TextManager.Instance.UpdateUpgradeCostText(info.upgradeCost, info.costTextConnection);
             return true;
         }
 
         public void LoadData(GameData data)
         {
-            _monzBigDoubleHolder = data.totalMonzSaved;
-            _monzPerCycle = data.monzPerCycleSaved;
+            SetLoadBool(true); // tell the monz manager that we are in load process, to not check or deduct money
+            Debug.Log($"MM: in LoadData {data.totalMonzSaved} {data.monzPerCycleSaved}");
+            ModifyingMonzTotal(data.totalMonzSaved, increase: true);  // use real methods to explicitly call logic in them
+            ModifyCycleMonzValue(data.monzPerCycleSaved, increase: true);
+            SetLoadBool(false); // tell the monz manager that we are in load process, to not check or deduct money
         }
 
         public void SaveData(ref GameData data)
         {
+            Debug.Log($"MM: In SaveData {_monzBigDoubleHolder} {_monzPerCycle}");
             data.totalMonzSaved = _monzBigDoubleHolder;
             data.monzPerCycleSaved = _monzPerCycle;
         }

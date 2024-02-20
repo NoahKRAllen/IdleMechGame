@@ -3,12 +3,11 @@ using UnityEngine.Serialization;
 
 namespace Managers
 {
-    public class TimeCycleManager : MonoBehaviour
+    public class TimeCycleManager : Singleton<TimeCycleManager>
     {
-        [SerializeField] private TextManager textManager;
-        [FormerlySerializedAs("moneyManager")] [SerializeField] private MonzManager monzManager;
         [SerializeField] float cycleDuration;
         [SerializeField] float cycleTimer;
+     
         // Start is called before the first frame update
         void Start()
         {
@@ -21,10 +20,10 @@ namespace Managers
         void Update()
         {
             cycleTimer -= Time.deltaTime;
-            textManager.UpdateCycleTimer(cycleTimer, cycleDuration);
+            TextManager.Instance.UpdateCycleTimer(cycleTimer, cycleDuration);
             if (!(cycleTimer < 0.0f)) return;
             cycleTimer = cycleDuration;
-            monzManager.IncreaseMoney();
+            MonzManager.Instance.IncreaseMoney();
         }
     
     
