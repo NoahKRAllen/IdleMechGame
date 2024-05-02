@@ -1,7 +1,6 @@
 using ButtonScripts;
 using MechMenuScripts;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,8 +44,9 @@ namespace Managers
                 var modifiedButton = Instantiate(mechOverlayOpenButton, uiParent.transform);
                 //modifiedButton.GetComponent<MechOverlayOpenButton>().SetupOverlayButton(_overlayScreen, screenManager, _totalDifferentMechs);
                 modifiedButton.transform.SetSiblingIndex(button.transform.GetSiblingIndex());
-                
-                button.GameObject().SetActive(false);
+
+                button.enabled = false;
+                // button.SetActive(false);
                 TextManager.UpdateAnyBasicText(modifiedButton.GetComponentInChildren<TextMeshProUGUI>(), _buttonText);
                 _overlayScreen = null;
                 _buttonText = string.Empty;

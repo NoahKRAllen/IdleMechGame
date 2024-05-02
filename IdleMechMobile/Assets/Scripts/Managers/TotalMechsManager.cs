@@ -96,7 +96,7 @@ namespace Managers
 
             // find all objects of type MechSlot
             // var mechSlotObjects = GameObject.FindObjectsOfType<MechSlot>();
-            var mechSlotParent = GameObject.FindObjectOfType<MechSlotsParent>();
+            var mechSlotParent = GameObject.FindObjectOfType<MechMenuScripts.MothershipManager>();
             
             // TODO: this is bad practice to directly access, but I want them in the same order as is stored in the Inspector
             // TODO: perhaps bring mech slot parent list into TotalMechsManager and remove mechslotsparent? 

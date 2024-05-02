@@ -13,7 +13,7 @@ public class ListenForTimerPing : MonoBehaviour
     void OnEnable()
     {
         animator = GetComponent<Animator>();
-        TimeCycleManager.Instance.OnTimeCycleOver.AddListener(AcceptTimerPing);
+        // TimeCycleManager.Instance.OnTimeCycleOver.AddListener(AcceptTimerPing);
         
     }
 

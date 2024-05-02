@@ -14,7 +14,7 @@ namespace ButtonScripts
 
         private bool _mechSelected;
         //private IndividualMechScreen _mechScreen; ignoring this for now
-        [SerializeField] private GameObject swapScreen;
+        [SerializeField] private ScreenView swapScreen;
 
         private void OnEnable()
         {

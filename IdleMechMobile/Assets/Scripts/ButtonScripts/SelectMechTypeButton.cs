@@ -22,7 +22,7 @@ namespace ButtonScripts
         }
         
         [SerializeField] private GameObject overlayScreen;
-        [SerializeField] private GameObject mechPurchaseScreen;
+        [SerializeField] private ScreenView mechPurchaseScreen;
         private void OnEnable()
         {
             if (!ButtonChild) ButtonChild = GetComponent<Button>();
@@ -36,7 +36,7 @@ namespace ButtonScripts
                 ButtonChild.interactable = false;
             }
             mechSelectionScreenManager.AffectMechSlot(mechName, overlayScreen);
-            screenManagerChild.SwapScreenTo(mechPurchaseScreen);
+            // screenManagerChild.SwapScreenTo(mechPurchaseScreen);
         }
 
         private void OnDisable()

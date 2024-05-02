@@ -822,7 +822,13 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
+    Build: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
     UNet: 1
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -842,11 +848,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 5be4272f-a3c8-44b8-8139-24ab1187a7c8
+  cloudProjectId: 9ecf7831-0077-40e4-9b00-1538cb52ce39
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: IdleMechMobile
-  organizationId: determination-crafts
+  projectName: IdleMechMobile (1)
+  organizationId: digital-dragon-slayers
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

@@ -6,7 +6,7 @@ namespace Managers
 {
     public class MechSelectionScreenManager : MonoBehaviour
     {
-        [SerializeField] private MechSlotsParent mechSlotParent;
+        [SerializeField] private MechMenuScripts.MothershipManager mechSlotParent;
 
         public void AffectMechSlot(string mechName, GameObject overlayScreen)
         {

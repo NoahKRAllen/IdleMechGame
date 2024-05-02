@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b91692194f21694ea5ad0e88500e777, type: 3}
+  m_Name: DevPlanetEasy
+  m_EditorClassIdentifier: 
+  planetName: EasyPlanetForDev
+  planetDescription: Planet which makes everything fast and cheap
+  planetDifficulty: 0.1
+  timerModifier: 0.1
+  planetPrefab: {fileID: 1446605993511392, guid: a6478dfeefe8ec844bf1104314990f60, type: 3}

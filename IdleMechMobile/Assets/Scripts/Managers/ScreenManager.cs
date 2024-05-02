@@ -1,34 +1,58 @@
 using MechMenuScripts;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Managers
 {
-    public class ScreenManager : MonoBehaviour
+    public class ScreenManager : Singleton<ScreenManager>
     {
-        [SerializeField] private GameObject currentlyActiveScreen;
+        [SerializeField] private ScreenView currentlyActiveScreen;
         private GameObject _activeOverlayScreen;
-        [SerializeField] private MechSlotsParent MechSlotsParent;
+        [FormerlySerializedAs("MechSlotsParent")] [SerializeField] private MechMenuScripts.MothershipManager mothershipManager;
+        
+
+        // TODO:  initialize a state machine with conditions on what screens can swap to each other
+
+
         private void Start()
         {
-            if (currentlyActiveScreen) return;
+            
             //Need a better way to default to a specific GameObject, but without linking it to the script
             //Could do a GetComponent if I have a component on the default screen that I can go searching for
-            currentlyActiveScreen = GameObject.Find("MainGameScreen");
+            if (!currentlyActiveScreen)
+            {
+                Debug.LogError($"No default current screen set in {gameObject.name}", gameObject);
+                // currentlyActiveScreen = GameObject.Find("MainGameScreen");
+            }
+
             SwapScreenTo(currentlyActiveScreen);
+            
         }
 
-        public void SwapScreenTo(GameObject screenToSwapTo)
+        public void SwapScreenTo(ScreenView screenToSwapTo)
         {
-            currentlyActiveScreen.SetActive(false);
+            if (screenToSwapTo == null)
+            {
+                Debug.LogWarning("ScreenManager: Attempted to swap to a null screen", gameObject);
+                return;
+            }
+            Debug.Log($"SM: swapping from {currentlyActiveScreen.gameObject.name} to {screenToSwapTo.gameObject.name}");
+            // TODO: Move currently active screen back to its initial position in the scene
+            currentlyActiveScreen.ResetToOriginalPosition();
+
+            // Set the currently active screen to the new screen
             currentlyActiveScreen = screenToSwapTo;
-            currentlyActiveScreen.SetActive(true);
+            currentlyActiveScreen.GetComponent<RectTransform>().anchoredPosition  = new Vector3(0, -480, 0);
         }
 
         public void OpenOverlayScreen(GameObject overlayScreen)
         {
             Debug.Log($"SM: Opening overlay screen: {overlayScreen.name}", gameObject);
+            // TODO: move the current overlay screen back to where it was before
+            
             _activeOverlayScreen = overlayScreen;
-            _activeOverlayScreen.SetActive(true);
+            _activeOverlayScreen.GetComponent<RectTransform>().anchoredPosition  = new Vector3(0, -480, 0);
+            // _activeOverlayScreen.SetActive(true);
         }
 
         public void OpenOverlayScreen(GameObject overlayScreen, int differentMechs)
@@ -44,7 +68,7 @@ namespace Managers
             _activeOverlayScreen = null;
             
             // todo: tell MechSlotsParent to clear his state tracking as well
-            MechSlotsParent.ClearSelectedMechSlot();
+            mothershipManager.ClearSelectedMechSlot();
         }
     }
 }

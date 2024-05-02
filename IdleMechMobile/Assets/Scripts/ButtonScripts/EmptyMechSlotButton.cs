@@ -5,7 +5,7 @@ namespace ButtonScripts
 {
     public class EmptyMechSlotButton : ButtonParent
     {
-        [SerializeField] private GameObject mechSelectionScreen;
+        [SerializeField] private ScreenView mechSelectionScreen;
         
         //What is needed:
             //The easiest way might just be having a second button in this process, doing the unlock code on it and keeping this button clean

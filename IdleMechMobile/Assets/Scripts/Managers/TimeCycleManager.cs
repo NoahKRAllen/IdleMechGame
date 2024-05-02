@@ -7,12 +7,13 @@ namespace Managers
     public class TimeCycleManager : Singleton<TimeCycleManager>
     {
         [SerializeField] float cycleDuration;
+        public float getCycleDuration => cycleDuration;
         [SerializeField] float cycleTimer;
-        
-        // an event for when the time cycle is over
-        public UnityEvent OnTimeCycleOver;
-     
-        // Start is called before the first frame update
+        public float getCycleTimer => cycleTimer;
+
+        public Event onTimeCycleOver;
+        public Event onTimeCycleDataChanged;
+
         void Start()
         {
             if(cycleDuration <= 0)
@@ -20,20 +21,20 @@ namespace Managers
             cycleTimer = cycleDuration;
         }
 
-        // Update is called once per frame
         void Update()
         {
             cycleTimer -= Time.deltaTime;
-            TextManager.Instance.UpdateCycleTimer(cycleTimer, cycleDuration);
+            onTimeCycleDataChanged.Occurred(gameObject);
+            // TextManager.Instance.UpdateCycleTimer(cycleTimer, cycleDuration);
             if (!(cycleTimer < 0.0f)) return;
             cycleTimer = cycleDuration;
-            OnTimeCycleOver?.Invoke(); // ping all things that timer is over
-            MonzManager.Instance.IncreaseMoney();
+            onTimeCycleOver.Occurred(this.gameObject);
         }
     
         public void DecreaseCycleTimer(int multipler)
         {
             cycleDuration -= (0.1f * multipler);
+            onTimeCycleDataChanged.Occurred(gameObject);
         }
     }
 }

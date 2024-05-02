@@ -1,38 +1,54 @@
+using System;
 using System.Collections.Generic;
 using BreakInfinity;
 using DataPersistence;
 using Managers;
-using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using TMPro;
 
 namespace MechMenuScripts
 {
-    public class MechSlotsParent : MonoBehaviour
+    // [ExecuteAlways] // makes the buttons execute in editor and play mode
+    [ExecuteInEditMode]  // only show buttons in edit mode
+    public class MothershipManager : Singleton<MothershipManager>, IDataPersistence
     {
+        [SerializeField] private ScriptableObject _mothershipSO;
         
-        //TODO: Need to get someway to link the mechSlots to their selected mech, probably through the TotalMechManager or something so it can be saved in the save system
-        [SerializeField] public List<MechSlot> mechSlots;
+        [SerializeField] public List<MechSlot> mechSlots; // FIXME: Remove the direct awareness of the slots, let the FactorySlotView deal with that.
+        private List<GameObject> _factorySlots = new List<GameObject>(); // TODO: create the list of factory slots based on mothership slot size
+
         private MechSlot _activelyUpdatingMechSlot;
         private string _tempNameHolder;
         private GameObject _overlayScreenHolder;
-        public bool mechSelected;  //FIXME: I think this should be per MechSlot, not at the parent level
+        public bool mechSelected;  // FIXME: I think this should be per MechSlot, not at the parent level
+        
+        public UnityEvent OnMothershipChange;  // tell all the subscribers that the mothership has changed and that they should update their models
+
+        public void OnMechFactoryPurchased(GameObject go)
+        {
+            Debug.Log("MoM: OnMechFactoryPurchased: " + go.name);
+            // TODO: Update the mech slots 
+        }
         
         private void Awake()
         {
-            // TODO: subscribe to data change events in TotalMechsManager
+            // TODO: read all the Mothership data from the SO
+            // TODO: load the mothership prefab and render it on screen
         }
 
         public void ClearSelectedMechSlot()
         {
-            Debug.Log($"MSP: Clearing selected mech slot data", gameObject);
+            Debug.Log($"MoM: Clearing selected mech slot data", gameObject);
             _activelyUpdatingMechSlot = null;
             _tempNameHolder = null;
             _overlayScreenHolder = null;
             mechSelected = false;
+            OnMothershipChange.Invoke();
         }
         public bool UnlockSlot(BigDouble priceToUnlock)
         {
-            return MonzManager.Instance.TrySpend(priceToUnlock);
+            return MonzManager.Instance.TrySpend(priceToUnlock); // FIXME: shouldn't be doing unlock 
         }
 
         public void UpdateMechSlotText(TextMeshProUGUI textToUpdate, string newText)
@@ -93,5 +109,23 @@ namespace MechMenuScripts
         // {
         //     data.mechSlotsSaved = mechSlots;
         // }
+
+        private void LoadData()
+        {
+            GameData data = new GameData();
+            LoadData(data);
+        }
+        public void LoadData(GameData data)
+        {
+            Debug.Log($"MoM: Doing LoadData for {gameObject.name}", gameObject);
+            OnMothershipChange.Invoke();
+            // throw new System.NotImplementedException();
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            Debug.LogWarning($"MoM: SaveData for {gameObject.name}", gameObject);
+            // throw new System.NotImplementedException();
+        }
     }
 }

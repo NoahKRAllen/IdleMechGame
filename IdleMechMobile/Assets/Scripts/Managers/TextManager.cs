@@ -13,6 +13,19 @@ namespace Managers
         [SerializeField] private GameObject cycleVisual;
         private Image _cycleFillIn;
 
+        public void OnMonzChanged(GameObject monzManager)
+        {
+            var currentMonz = monzManager.GetComponent<MonzManager>().getCurrentMonz;
+            UpdateMonzText(currentMonz);
+        }
+
+        public void OnTimeCycleDataChanged(GameObject timeCycleManager)
+        {
+            UpdateCycleTimer(
+                timeCycleManager.GetComponent<TimeCycleManager>().getCycleTimer,
+                timeCycleManager.GetComponent<TimeCycleManager>().getCycleDuration
+            );
+        }
         
         private void Start()
         {

@@ -5,7 +5,7 @@ namespace ButtonScripts
 {
     public class SwapScreenButton : ButtonParent
     {
-        [SerializeField] private GameObject swapScreen;
+        [SerializeField] private ScreenView swapScreen;
         private void OnEnable()
         {
             if (!ButtonChild) ButtonChild = GetComponent<Button>();
@@ -22,7 +22,7 @@ namespace ButtonScripts
             ButtonChild.onClick.RemoveListener(SwapScreen);
         }
 
-        public void ChangeTargetScreen(GameObject newScreen)
+        public void ChangeTargetScreen(ScreenView newScreen)
         {
             swapScreen = newScreen;
         }

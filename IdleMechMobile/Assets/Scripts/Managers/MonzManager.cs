@@ -3,6 +3,7 @@ using DataPersistence;
 using MechMenuScripts;
 using Serialized;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Managers
 {
@@ -12,6 +13,11 @@ namespace Managers
         private BigDouble _monzPerCycle;
         private bool _isLoading;
         public bool IsLoading => _isLoading;
+        
+        // public UnityEvent DataChanged;
+        public Event onMonzChanged;
+        
+        public BigDouble getCurrentMonz => _monzBigDoubleHolder;
 
         private void Start()
         {
@@ -21,6 +27,12 @@ namespace Managers
                 _monzPerCycle = 1;
             }
             UpdateStartMoneyText();
+        }
+        
+        public void OnTimeCycleOver(GameObject go)
+        {
+            // Debug.Log($"MM: OnTimeCycleOver {go.name}");
+            IncreaseMoney();
         }
 
         private void UpdateStartMoneyText()
@@ -32,6 +44,7 @@ namespace Managers
         public void IncreaseMoney()
         {
             ModifyingMonzTotal(_monzPerCycle, true);
+            onMonzChanged.Occurred(gameObject);
         }
 
         public void SetLoadBool(bool isLoading)
@@ -81,7 +94,9 @@ namespace Managers
             {
                 _monzBigDoubleHolder -= priceToModifyBy;
             }
-            TextManager.Instance.UpdateMonzText(_monzBigDoubleHolder);
+            // OnDataChanged();
+            onMonzChanged.Occurred(gameObject);
+            // TextManager.Instance.UpdateMonzText(_monzBigDoubleHolder);
         }
         
         public bool UpgradeValue(PurchaseInfo info)
@@ -129,6 +144,7 @@ namespace Managers
             ModifyingMonzTotal(data.totalMonzSaved, increase: true);  // use real methods to explicitly call logic in them
             ModifyCycleMonzValue(data.monzPerCycleSaved, increase: true);
             SetLoadBool(false); // tell the monz manager that we are in load process, to not check or deduct money
+            onMonzChanged.Occurred(gameObject);
         }
 
         public void SaveData(ref GameData data)
@@ -137,5 +153,7 @@ namespace Managers
             data.totalMonzSaved = _monzBigDoubleHolder;
             data.monzPerCycleSaved = _monzPerCycle;
         }
+
+        
     }
 }

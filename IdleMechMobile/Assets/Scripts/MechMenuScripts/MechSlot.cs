@@ -2,15 +2,16 @@ using ButtonScripts;
 using Managers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MechMenuScripts
 {
-    [RequireComponent(typeof(LockedMechSlotButton))]
-    [RequireComponent(typeof(MechOverlayOpenButton))]
+    // [RequireComponent(typeof(LockedMechSlotButton))]
+    // [RequireComponent(typeof(MechOverlayOpenButton))]
     public class MechSlot : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI buttonText;
-        [SerializeField] private MechSlotsParent mechSlotsParent;
+        [SerializeField] private MothershipManager mothershipManager;
         // [SerializeField] public bool mechSelected;
         //TODO: Save this script, using the script enable to decide what the save hits, be it the required mech overlay 
         //or just the buttonText to state it is still a locked slot
@@ -21,15 +22,16 @@ namespace MechMenuScripts
         {
             if (!lockedSlotButton) lockedSlotButton = GetComponent<LockedMechSlotButton>();
             if (!_mechOverlayOpenButton) _mechOverlayOpenButton = GetComponent<MechOverlayOpenButton>();
+            if (!mothershipManager) mothershipManager = GetComponent<MothershipManager>();
         }
 
         public void CallUpdateMechSlotText(string newText)
         {
-            mechSlotsParent.UpdateMechSlotText(buttonText, newText);
+            mothershipManager.UpdateMechSlotText(buttonText, newText);
         }
         public void CallUnlockSlot()
         {
-            if (!mechSlotsParent.UnlockSlot(lockedSlotButton.GetPriceToUnlock()))
+            if (!mothershipManager.UnlockSlot(lockedSlotButton.GetPriceToUnlock()))
             {
                 return;
             }
@@ -40,29 +42,29 @@ namespace MechMenuScripts
 
         public void SetupOverlayButton()
         {
-            var mechName = mechSlotsParent.MechSlotRequestInfo(out var overlayScreen);
+            var mechName = mothershipManager.MechSlotRequestInfo(out var overlayScreen);
             
             // TODO: collect the army counts we have in this slot
             // TotalMechsManager.Instance.GetMech(mechName);
             
             Debug.Log($"MS: setting up overlay button for {mechName}", gameObject);
-            mechSlotsParent.UpdateMechSlotText(buttonText, mechName);
+            mothershipManager.UpdateMechSlotText(buttonText, mechName);
             _mechOverlayOpenButton.SetupListeningOverlayButton(overlayScreen);
-            mechSlotsParent.mechSelected = false;
+            mothershipManager.mechSelected = false;
         }
 
         public void PassActiveSlotUp()
         {
-            mechSlotsParent.SetActiveMechSlot(this);
+            mothershipManager.SetActiveMechSlot(this);
         }
 
         public MechSlot RequestActiveMechSlot()
         {
-            return mechSlotsParent.CheckActiveMechSlot();
+            return mothershipManager.CheckActiveMechSlot();
         }
         public bool CheckMechSelected()
         {
-            return mechSlotsParent.mechSelected; // return if this particular slot has a value in it
+            return mothershipManager.mechSelected; // return if this particular slot has a value in it
         }
 
 

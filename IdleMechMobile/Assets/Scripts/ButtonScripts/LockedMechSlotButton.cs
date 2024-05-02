@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ButtonScripts
 {
-    [RequireComponent(typeof(MechSlot))]
+    // [RequireComponent(typeof(MechSlot))]
     [RequireComponent(typeof(Button))]
     public class LockedMechSlotButton : ButtonParent
     {
